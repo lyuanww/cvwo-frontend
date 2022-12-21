@@ -1,9 +1,4 @@
 class Api::V1::SessionsController < ApplicationController
-  def index
-    @user = User.find(session[:user_id])
-    render json: @user
-  end
-
   def create
     user = User.find_by(username: session_params[:username])
     if user && user.authenticate(session_params[:password])
@@ -24,7 +19,7 @@ class Api::V1::SessionsController < ApplicationController
     if current_user
       render json: {
                logged_in: true,
-               user: UserSerializer.new(@current_user),
+               user: UserSerializer.new(current_user),
              }
     else
       render json: {

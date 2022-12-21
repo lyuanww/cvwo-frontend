@@ -44,23 +44,32 @@ export const loginUser = (data: any, handleSuccess: any) => (dispatch: any) => {
     );
 };
 
-export const showLoginUser =
-  (data: any, handleSuccess: any) => (dispatch: any) => {
-    axios
-      .get("http://localhost:3000/api/v1/login")
-      .then((response) => {
-        if (response.data.status === 401) {
-          throw new Error(response.data.error);
-        }
+export const logoutUser = (handleSuccess: any) => (dispatch: any) => {
+  axios
+    .delete("http://localhost:3000/api/v1/logout", { withCredentials: true })
+    .then((response) => {
+      dispatch({ type: "LOGOUT_USER" });
+      dispatch({ type: "CLEAR_ERROR" });
+      handleSuccess();
+    })
+    .catch((error) =>
+      dispatch({ type: "ADD_ERROR", error: "Something went wrong. Try again." })
+    );
+};
+
+export const fetchLoginStatus = () => (dispatch: any) => {
+  axios
+    .get("http://localhost:3000/api/v1/logged_in", { withCredentials: true })
+    .then((response) => {
+      if (response.data.logged_in) {
         dispatch({
           type: "LOGIN_USER",
           user: response.data.user,
         });
         dispatch({ type: "CLEAR_ERROR" });
-
-        handleSuccess();
-      })
-      .catch((response) =>
-        dispatch({ type: "ADD_ERROR", error: response.message })
-      );
-  };
+      }
+    })
+    .catch((error) =>
+      dispatch({ type: "ADD_ERROR", error: "Something went wrong. Try again." })
+    );
+};

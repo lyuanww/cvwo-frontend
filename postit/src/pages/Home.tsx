@@ -3,6 +3,7 @@ import { Layout } from "antd";
 import SideBar from "../components/sidebar";
 import TopHeader from "../components/header";
 import PostList from "../components/postlist";
+
 const { Content } = Layout;
 
 const Home: React.FC = () => {
