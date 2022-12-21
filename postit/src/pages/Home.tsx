@@ -1,15 +1,11 @@
 import React from "react";
-import { Layout, theme } from "antd";
+import { Layout } from "antd";
 import SideBar from "../components/sidebar";
 import TopHeader from "../components/header";
 import PostList from "../components/postlist";
 const { Content } = Layout;
 
 const Home: React.FC = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <SideBar />
@@ -20,7 +16,6 @@ const Home: React.FC = () => {
             style={{
               padding: 50,
               minHeight: 360,
-              background: colorBgContainer,
             }}
           >
             <PostList />

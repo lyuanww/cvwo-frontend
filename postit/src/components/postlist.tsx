@@ -16,7 +16,7 @@ const LIMIT = 1;
 function getAPIData() {
   return axios.get(fakeDataUrl).then((response) => response.data);
 }
-const fakeDataUrl = "http://localhost:3000/api/v1/posts";
+const fakeDataUrl = "http://localhost:3000/api/v1/users";
 
 const PostList: React.FC = () => {
   const [initLoading, setInitLoading] = useState(true);

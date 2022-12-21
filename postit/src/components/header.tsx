@@ -13,7 +13,7 @@ const TopHeader: React.FC = () => {
           size={60}
           icon={<UserOutlined />}
         />
-        <p style={{ position: "absolute", lineHeight: 3, right: 80 }}>User</p>
+        <p style={{ position: "absolute", lineHeight: 3, right: 100 }}>User</p>
       </Menu>
     </Header>
   );

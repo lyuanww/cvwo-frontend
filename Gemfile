@@ -6,7 +6,11 @@ ruby "3.1.3"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"
 
+gem "active_model_serializers"
+
 gem "rack-cors"
+
+gem 'bcrypt'
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"

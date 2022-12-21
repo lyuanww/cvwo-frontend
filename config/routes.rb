@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
+  resources :posts
   namespace :api do
     namespace :v1 do
-        end
+      resources :users
+      post "/login", to: "sessions#create"
+      delete "/logout", to: "sessions#destroy"
+      get "/logged_in", to: "sessions#is_logged_in?"
+    end
   end
 end
-  
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
-
