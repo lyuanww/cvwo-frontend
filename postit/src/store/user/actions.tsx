@@ -24,14 +24,13 @@ export const loginUser = (data: any, handleSuccess: any) => (dispatch: any) => {
     .post(
       "http://localhost:3000/api/v1/login",
       { user: data },
-      {
-        headers: { "Access-Control-Allow-Credentials": true },
-      }
+      { withCredentials: true }
     )
     .then((response) => {
       if (response.data.status === 401) {
         throw new Error(response.data.error);
       }
+
       dispatch({
         type: "LOGIN_USER",
         user: response.data.user,

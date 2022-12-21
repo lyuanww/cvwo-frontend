@@ -14,6 +14,7 @@ const Login: React.FC = () => {
   const handleSuccess = () => {
     setUsername("");
     setPassword("");
+
     navigate("/");
   };
 
@@ -22,7 +23,7 @@ const Login: React.FC = () => {
       username: username.trim(),
       password: password,
     };
-    console.log(user);
+
     dispatch(loginUser(user, handleSuccess));
   };
 

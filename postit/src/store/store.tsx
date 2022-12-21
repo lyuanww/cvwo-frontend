@@ -4,8 +4,8 @@ import errorsReducer from "./error/error";
 
 const store = configureStore({
   reducer: {
-    users: usersReducer,
-    errors: errorsReducer,
+    user: usersReducer,
+    error: errorsReducer,
   },
 });
 
