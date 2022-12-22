@@ -1,10 +1,9 @@
-class PostsController < ApplicationController
+class Api::V1::PostsController < ApplicationController
   before_action :set_post, only: %i[ show update destroy ]
 
   # GET /posts
   def index
     @posts = Post.all
-
     render json: @posts
   end
 
@@ -14,23 +13,37 @@ class PostsController < ApplicationController
     render json: @post
   end
 
+  def showByUser
+    @posts = Post.where(user_id: session[:user_id]).all
+    render json: @posts
+  end
+
   # POST /posts
   def create
-    @post = Post.new(post_params)
-
-    if @post.save
-      render json: @post, status: :created, location: @post
+    post = self.current_user.posts.build(post_params)
+    if post.save
+      render json: {
+        post: PostSerializer.new(post),
+      }
     else
-      render json: @post.errors, status: :unprocessable_entity
+      render json: {
+        status: 500,
+        error: post.errors.full_messages,
+      }
     end
   end
 
   # PATCH/PUT /posts/1
   def update
-    if @post.update(post_params)
-      render json: @post
+    if post.update(post_params)
+      render json: {
+        post: PostSerializer.new(post),
+      }
     else
-      render json: @post.errors, status: :unprocessable_entity
+      render json: {
+        status: 500,
+        error: post.errors.full_messages,
+      }
     end
   end
 

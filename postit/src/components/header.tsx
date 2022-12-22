@@ -1,6 +1,6 @@
 import { Layout, Menu, Avatar, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useSelector } from "../store/rootType";
+import { useAppSelector } from "../store/hooks";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "react";
 import { logoutUser } from "../store/user/actions";
@@ -10,7 +10,7 @@ const { Header } = Layout;
 const TopHeader: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user);
   const handleSuccess = () => {
     navigate("/login");
   };

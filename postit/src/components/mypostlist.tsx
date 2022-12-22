@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Avatar, Button, List, Skeleton, Card } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./postlist.css";
-import { fetchPostsAsync, Statuses } from "../store/post/postSlice";
+import { fetchPostsByUserAsync, Statuses } from "../store/post/postSlice";
 import { selectPosts, selectStatus } from "../store/post/postSlice";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 
@@ -15,9 +15,9 @@ const PostList: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchPostsAsync());
+    dispatch(fetchPostsByUserAsync());
   }, [dispatch]);
-
+  console.log(posts);
   let contents;
 
   if (status !== Statuses.UpToDate) {

@@ -7,6 +7,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /posts/1
   def show
+    @user = User.find(params[:id])
     render json: @user
   end
 
@@ -15,8 +16,7 @@ class Api::V1::UsersController < ApplicationController
     if @user.save
       session[:user_id] = @user.id
       render json: {
-        status: :created,
-        user: @user,
+        user: UserSerializer.new(user),
       }
     else
       @user.save
@@ -30,6 +30,6 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :first_name, :last_name, :email, :password)
+    params.require(:user).permit(:id, :username, :first_name, :last_name, :email, :password)
   end
 end
