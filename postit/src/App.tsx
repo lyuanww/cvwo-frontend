@@ -3,10 +3,12 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignUp from "./pages/Signup";
 import Login from "./pages/Login";
+import DeletePost from "./pages/DeletePost";
 import { fetchLoginStatus } from "./store/user/actions";
 import Home from "./pages/Home";
 import MyPost from "./pages/MyPost";
 import CreatePost from "./pages/CreatePost";
+import UpdatePost from "./pages/EditPost";
 import { useDispatch } from "react-redux";
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/deletepost" element={<DeletePost />} />
+          <Route path="/updatepost" element={<UpdatePost />} />
         </Routes>
       </BrowserRouter>
     </div>

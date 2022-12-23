@@ -17,6 +17,7 @@ const Post: React.FC = () => {
       post: {
         title: title,
         body: body,
+        likes: 0,
       },
     };
     dispatch(createPostAsync(formData));

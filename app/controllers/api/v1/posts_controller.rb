@@ -49,7 +49,15 @@ class Api::V1::PostsController < ApplicationController
 
   # DELETE /posts/1
   def destroy
+    unless @post.user == self.current_user
+      render json: {
+        status: 500,
+        error: post.errors.full_messages,
+      }
+    end
+
     @post.destroy
+    render json: @post
   end
 
   private
