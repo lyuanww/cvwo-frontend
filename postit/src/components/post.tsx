@@ -1,33 +1,54 @@
 import React, { useState } from "react";
-
+import { useAppDispatch } from "../store/hooks";
 import { Form, Input, Button } from "antd";
-
+import { useNavigate } from "react-router-dom";
+import { createPostAsync } from "../store/post/postSlice";
 const { TextArea } = Input;
 
 const Post: React.FC = () => {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
-  const onFormLayoutChange = ({ disabled }: { disabled: boolean }) => {
-    setComponentDisabled(disabled);
-  };
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+
+  const onFinish = () => {
+    const formData = {
+      post: {
+        title: title,
+        body: body,
+      },
+    };
+    dispatch(createPostAsync(formData));
+    resetState();
+  };
+  const resetState = () => {
+    setTitle("");
+    setBody("");
+    navigate("/");
+  };
   return (
     <>
       <Form
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
-        onValuesChange={onFormLayoutChange}
+        onFinish={onFinish}
       >
         <Form.Item label="Title">
-          <Input />
+          <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </Form.Item>
         <Form.Item label="TextArea">
-          <TextArea rows={10} />
+          <TextArea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            rows={10}
+          />
         </Form.Item>
 
-        <Form.Item label="Button">
-          <Button>Button</Button>
-        </Form.Item>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
       </Form>
     </>
   );

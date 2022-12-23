@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import produce from "immer";
 import { RootState } from "../store";
-import { fetchPosts, fetchPostsByUser } from "./actionsAPI";
+import { fetchPosts, fetchMyPosts, createPost } from "./actionsAPI";
 
 export enum Statuses {
   Initial = "Not Fetched",
@@ -26,8 +26,12 @@ export interface PostState {
   user_id?: number | null;
 }
 
-export interface User {
-  id?: number;
+export interface PostFormData {
+  post: {
+    id?: number;
+    title: string;
+    body: string;
+  };
 }
 const initialState: PostsState = {
   posts: [
@@ -49,10 +53,18 @@ export const fetchPostsAsync = createAsyncThunk("posts/fetch", async () => {
   return response;
 });
 
-export const fetchPostsByUserAsync = createAsyncThunk(
-  "posts/fetchByUser",
+export const fetchMyPostsAsync = createAsyncThunk(
+  "posts/fetchMyPosts",
   async () => {
-    const response = await fetchPostsByUser();
+    const response = await fetchMyPosts();
+    return response;
+  }
+);
+
+export const createPostAsync = createAsyncThunk(
+  "posts/createPost",
+  async (payload: PostFormData) => {
+    const response = await createPost(payload);
     return response;
   }
 );
@@ -79,18 +91,34 @@ export const postsSlice = createSlice({
           draftState.status = Statuses.Error;
         });
       })
-      .addCase(fetchPostsByUserAsync.pending, (state) => {
+      .addCase(fetchMyPostsAsync.pending, (state) => {
         return produce(state, (draftState) => {
           draftState.status = Statuses.Loading;
         });
       })
-      .addCase(fetchPostsByUserAsync.fulfilled, (state, action) => {
+      .addCase(fetchMyPostsAsync.fulfilled, (state, action) => {
         return produce(state, (draftState) => {
           draftState.posts = action.payload;
           draftState.status = Statuses.UpToDate;
         });
       })
-      .addCase(fetchPostsByUserAsync.rejected, (state) => {
+      .addCase(fetchMyPostsAsync.rejected, (state) => {
+        return produce(state, (draftState) => {
+          draftState.status = Statuses.Error;
+        });
+      })
+      .addCase(createPostAsync.pending, (state) => {
+        return produce(state, (draftState) => {
+          draftState.status = Statuses.Loading;
+        });
+      })
+      .addCase(createPostAsync.fulfilled, (state, action) => {
+        return produce(state, (draftState) => {
+          draftState.posts.push(action.payload);
+          draftState.status = Statuses.UpToDate;
+        });
+      })
+      .addCase(createPostAsync.rejected, (state) => {
         return produce(state, (draftState) => {
           draftState.status = Statuses.Error;
         });
