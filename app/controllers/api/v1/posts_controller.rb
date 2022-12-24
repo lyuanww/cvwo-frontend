@@ -34,15 +34,16 @@ class Api::V1::PostsController < ApplicationController
   end
 
   # PATCH/PUT /posts/1
+
   def update
-    if post.update(post_params)
-      render json: {
-        post: PostSerializer.new(post),
-      }
+    # Only allow the owner of the post or an administrator to update the post
+
+    if @post.update(post_params)
+      render json: @post
     else
       render json: {
         status: 500,
-        error: post.errors.full_messages,
+        error: @post.errors.full_messages,
       }
     end
   end
@@ -52,7 +53,7 @@ class Api::V1::PostsController < ApplicationController
     unless @post.user == self.current_user
       render json: {
         status: 500,
-        error: post.errors.full_messages,
+        error: @post.errors.full_messages,
       }
     end
 
@@ -69,6 +70,6 @@ class Api::V1::PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:title, :body, :likes, :user_id)
+    params.require(:post).permit(:id, :title, :body, :likes, :user_id)
   end
 end

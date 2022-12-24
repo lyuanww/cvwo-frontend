@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Avatar, Button, List, Skeleton, Card } from "antd";
+import { Avatar, Button, List, Card } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./postlist.css";
 import { fetchMyPostsAsync, Statuses } from "../store/post/postSlice";
@@ -26,7 +26,7 @@ const PostList: React.FC = () => {
   };
 
   const onEdit = (item: any) => {
-    navigate("/updatepost", { state: { item } });
+    navigate("/editpost", { state: { item } });
   };
   let contents;
 
@@ -40,18 +40,56 @@ const PostList: React.FC = () => {
         dataSource={posts}
         renderItem={(item) => (
           <Card
+            actions={[<Button>Edit</Button>]}
             extra={
               <div>
                 <Button onClick={() => onEdit(item)}>Edit</Button>
                 <Button onClick={() => onDelete(item)}>Delete</Button>
               </div>
             }
-            style={{ margin: "auto", width: 700 }}
+            style={{
+              margin: "auto",
+              width: 700,
+              height: "auto",
+              position: "relative",
+            }}
           >
             <Meta
               avatar={<Avatar icon={<UserOutlined />} />}
               title={<a href="https://ant.design">{item.title}</a>}
               description={item.body}
+            />
+            <List
+              className="demo-loadmore-list"
+              itemLayout="horizontal"
+              style={{ position: "relative", margin: 20 }}
+              dataSource={posts}
+              renderItem={(item) => (
+                <Card
+                  extra={
+                    <div>
+                      <Button onClick={() => onEdit(item)}>Edit</Button>
+                      <Button onClick={() => onDelete(item)}>Delete</Button>
+                    </div>
+                  }
+                  style={{
+                    margin: "auto",
+                    width: "auto",
+                    height: "auto",
+                    position: "relative",
+                  }}
+                >
+                  <Meta
+                    avatar={<Avatar icon={<UserOutlined />} />}
+                    title={
+                      <div style={{ textAlign: "left", wordSpacing: 200 }}>
+                        User hi
+                      </div>
+                    }
+                    description={item.body}
+                  />
+                </Card>
+              )}
             />
           </Card>
         )}

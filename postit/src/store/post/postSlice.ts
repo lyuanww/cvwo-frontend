@@ -6,6 +6,7 @@ import {
   fetchMyPosts,
   createPost,
   destroyPost,
+  updatePost,
 } from "./actionsAPI";
 
 export enum Statuses {
@@ -29,6 +30,9 @@ export interface PostState {
   createdAt?: string;
   updatedAt?: string;
   user_id?: number | null;
+  user: {
+    username: string;
+  };
 }
 
 export interface PostFormData {
@@ -47,8 +51,11 @@ export interface PostDeleteData {
 }
 
 export interface PostUpdateData {
-  id: number;
-  post: PostState;
+  post: {
+    id: number;
+    body: string;
+    title: string;
+  };
 }
 const initialState: PostsState = {
   posts: [
@@ -60,6 +67,9 @@ const initialState: PostsState = {
       createdAt: "",
       updatedAt: "",
       user_id: null,
+      user: {
+        username: "",
+      },
     },
   ],
   status: Statuses.Initial,
@@ -90,6 +100,15 @@ export const destroyPostAsync = createAsyncThunk(
   "posts/destroyPost",
   async (payload: PostDeleteData) => {
     const response = await destroyPost(payload);
+    return response;
+  }
+);
+
+export const updatePostAsync = createAsyncThunk(
+  "posts/updatePost",
+  async (payload: PostUpdateData) => {
+    const response = await updatePost(payload);
+
     return response;
   }
 );

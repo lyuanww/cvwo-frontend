@@ -1,4 +1,9 @@
-import { PostsState, PostFormData, PostDeleteData } from "./postSlice";
+import {
+  PostsState,
+  PostFormData,
+  PostDeleteData,
+  PostUpdateData,
+} from "./postSlice";
 import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/v1/posts";
@@ -36,6 +41,18 @@ export async function createPost(payload: PostFormData) {
 export async function destroyPost(payload: PostDeleteData) {
   return axios
     .delete(`${API_URL}/${payload.post.id}`, { withCredentials: true })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log("Error:" + error);
+      return {} as PostsState;
+    });
+}
+
+export async function updatePost(payload: PostUpdateData) {
+  return axios
+    .patch(`${API_URL}/${payload.post.id}`, payload, {
+      withCredentials: true,
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.log("Error:" + error);

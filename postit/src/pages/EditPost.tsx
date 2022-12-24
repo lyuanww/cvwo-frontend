@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import TopHeader from "../components/header";
 import { useAppDispatch } from "../store/hooks";
 import { useLocation } from "react-router-dom";
+import { updatePostAsync } from "../store/post/postSlice";
 const { TextArea } = Input;
 const { Content } = Layout;
 
@@ -16,23 +17,17 @@ const EditPost = () => {
   const [title, setTitle] = useState(item.title);
   const [body, setBody] = useState(item.body);
 
-  const onFinish = () => {
+  const onClickYes = () => {
     const formData = {
       post: {
+        id: item.id,
         title: title,
         body: body,
       },
     };
 
-    resetState();
-  };
-  const resetState = () => {
-    setTitle("");
-    setBody("");
-    navigate("/");
-  };
-  const onClickYes = () => {
-    navigate("/mypost");
+    dispatch(updatePostAsync(formData));
+    navigate(`/mypost`);
   };
 
   const onClickNo = () => {
@@ -55,7 +50,6 @@ const EditPost = () => {
               labelCol={{ span: 4 }}
               wrapperCol={{ span: 14 }}
               layout="horizontal"
-              onFinish={onFinish}
             >
               <Form.Item label="Title">
                 <Input
@@ -71,9 +65,8 @@ const EditPost = () => {
                 />
               </Form.Item>
 
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
+              <Button onClick={onClickYes}>Edit</Button>
+              <Button onClick={onClickNo}>Cancel</Button>
             </Form>
           </div>
         </Content>

@@ -32,7 +32,12 @@ const PostList: React.FC = () => {
           <Card style={{ margin: "auto", width: 700 }}>
             <Meta
               avatar={<Avatar icon={<UserOutlined />} />}
-              title={<a href="https://ant.design">{item.title}</a>}
+              title={
+                <div>
+                  <div style={{ textAlign: "left" }}>{item.user.username}</div>
+                  <div style={{ textAlign: "center" }}>{item.title}</div>
+                </div>
+              }
               description={item.body}
             />
           </Card>
