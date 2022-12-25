@@ -15,12 +15,17 @@ class Api::V1::CommentsController < ApplicationController
 
   # POST /comments
   def create
-    @comment = Comment.new(comment_params)
-
+    @post =
+      @comment = self.current_user.comments.build(comment_params)
     if @comment.save
-      render json: @comment, status: :created, location: @comment
+      render json: {
+        comment: CommentSerializer.new(@comment),
+      }
     else
-      render json: @comment.errors, status: :unprocessable_entity
+      render json: {
+        status: 500,
+        error: @comment.errors.full_messages,
+      }
     end
   end
 
@@ -47,6 +52,6 @@ class Api::V1::CommentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def comment_params
-    params.require(:comment).permit(:body, :user_id, :post_id, :comment_id)
+    params.require(:comment).permit(:body, :post_id)
   end
 end

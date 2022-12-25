@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
-import { Avatar, Button, List, Card, Input, Divider } from "antd";
-import { UserOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Avatar, Button, List, Card } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import "./postlist.css";
 import { fetchMyPostsAsync, Statuses } from "../../store/post/postSlice";
 import { selectPosts, selectStatus } from "../../store/post/postSlice";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { useNavigate } from "react-router-dom";
 import Tags from "../tags/tags";
-import CreateComment from "../comments/createcomment";
-const { TextArea } = Input;
 
 const { Meta } = Card;
 
@@ -48,17 +46,11 @@ const PostList: React.FC = () => {
           dataSource={posts}
           renderItem={(item) => (
             <Card
+              actions={[<Button>Edit</Button>]}
               extra={
                 <div>
-                  <EditOutlined
-                    style={{ fontSize: "32px" }}
-                    onClick={() => onEdit(item)}
-                  />
-                  <Divider type="vertical" />
-                  <DeleteOutlined
-                    style={{ fontSize: "32px" }}
-                    onClick={() => onDelete(item)}
-                  />
+                  <Button onClick={() => onEdit(item)}>Edit</Button>
+                  <Button onClick={() => onDelete(item)}>Delete</Button>
                 </div>
               }
               style={{
@@ -70,18 +62,42 @@ const PostList: React.FC = () => {
             >
               <Meta
                 avatar={<Avatar icon={<UserOutlined />} />}
-                title={
-                  <div>
-                    <div style={{ textAlign: "left" }}>
-                      {item.user.username}
-                    </div>
-                    <div style={{ textAlign: "center" }}>{item.title}</div>
-                  </div>
-                }
+                title={<a href="https://ant.design">{item.title}</a>}
                 description={item.body}
               />
               <Tags tags={item.tags}></Tags>
-              <CreateComment post_id={item.id!}></CreateComment>
+              <List
+                className="demo-loadmore-list"
+                itemLayout="horizontal"
+                style={{ position: "relative", margin: 20 }}
+                dataSource={posts}
+                renderItem={(item) => (
+                  <Card
+                    extra={
+                      <div>
+                        <Button onClick={() => onEdit(item)}>Edit</Button>
+                        <Button onClick={() => onDelete(item)}>Delete</Button>
+                      </div>
+                    }
+                    style={{
+                      margin: "auto",
+                      width: "auto",
+                      height: "auto",
+                      position: "relative",
+                    }}
+                  >
+                    <Meta
+                      avatar={<Avatar icon={<UserOutlined />} />}
+                      title={
+                        <div style={{ textAlign: "left", wordSpacing: 200 }}>
+                          User hi
+                        </div>
+                      }
+                      description={item.body}
+                    />
+                  </Card>
+                )}
+              />
             </Card>
           )}
         />

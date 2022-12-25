@@ -3,6 +3,7 @@ import usersReducer from "./user/reducer";
 import errorsReducer from "./error/error";
 import postsReducer from "./post/postSlice";
 import tagsReducer from "./tag/tagSlice";
+import commentsReducer from "./comment/commentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     error: errorsReducer,
     posts: postsReducer,
     tags: tagsReducer,
+    comments: commentsReducer,
   },
 });
 

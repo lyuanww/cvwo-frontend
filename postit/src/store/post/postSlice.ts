@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import produce from "immer";
+import { CommentState } from "../comment/commentSlice";
 import { RootState } from "../store";
 import { TagState } from "../tag/tagSlice";
 import {
@@ -36,6 +37,7 @@ export interface PostState {
     username: string;
   };
   tags: TagState[];
+  comments: CommentState[];
 }
 
 export interface PostFormData {
@@ -76,6 +78,7 @@ const initialState: PostsState = {
         username: "",
       },
       tags: [],
+      comments: [],
     },
   ],
   status: Statuses.Initial,
