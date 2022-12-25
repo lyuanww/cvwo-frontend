@@ -11,6 +11,7 @@ import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import { useDispatch } from "react-redux";
 import TagPost from "./pages/TagPosts";
+import Tags from "./pages/Tags";
 
 function App() {
   const dispatch: Dispatch<any> = useDispatch();
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/deletepost" element={<DeletePost />} />
           <Route path="/editpost" element={<EditPost />} />
+          <Route path="/tags" element={<Tags />} />
         </Routes>
       </BrowserRouter>
     </div>

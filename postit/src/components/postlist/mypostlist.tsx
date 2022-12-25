@@ -19,7 +19,7 @@ const PostList: React.FC = () => {
   useEffect(() => {
     dispatch(fetchMyPostsAsync());
   }, [dispatch]);
-
+  console.log(posts);
   const onDelete = (item: any) => {
     console.log(item);
     navigate("/deletepost", { state: { item } });
