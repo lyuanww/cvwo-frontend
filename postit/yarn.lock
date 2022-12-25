@@ -3377,6 +3377,11 @@
   "resolved" "https://registry.npmjs.org/commander/-/commander-8.3.0.tgz"
   "version" "8.3.0"
 
+"commander@2":
+  "integrity" "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ=="
+  "resolved" "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
+  "version" "2.20.3"
+
 "common-path-prefix@^3.0.0":
   "integrity" "sha512-QE33hToZseCH3jS0qN96O/bSh3kaw/h+Tq7ngyY9eWDUnTlTNUyqfqvCXioLe5Na5jFsL78ra/wuBU4iuEgd4w=="
   "resolved" "https://registry.npmjs.org/common-path-prefix/-/common-path-prefix-3.0.0.tgz"
@@ -3727,6 +3732,16 @@
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-3.1.1.tgz"
   "version" "3.1.1"
 
+"d3-array@^1.2.0":
+  "integrity" "sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw=="
+  "resolved" "https://registry.npmjs.org/d3-array/-/d3-array-1.2.4.tgz"
+  "version" "1.2.4"
+
+"d3-polygon@^1.0.3":
+  "integrity" "sha512-k+RF7WvI08PC8reEoXa/w2nSg5AUMTi+peBD9cmFc+0ixHfbs4QmxxkarVal1IkVkgxVuk9JSHhJURHiyHKAuQ=="
+  "resolved" "https://registry.npmjs.org/d3-polygon/-/d3-polygon-1.0.6.tgz"
+  "version" "1.0.6"
+
 "damerau-levenshtein@^1.0.8":
   "integrity" "sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA=="
   "resolved" "https://registry.npmjs.org/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz"
@@ -4039,6 +4054,11 @@
   "integrity" "sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg=="
   "resolved" "https://registry.npmjs.org/duplexer/-/duplexer-0.1.2.tgz"
   "version" "0.1.2"
+
+"earcut@^2.1.1":
+  "integrity" "sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ=="
+  "resolved" "https://registry.npmjs.org/earcut/-/earcut-2.2.4.tgz"
+  "version" "2.2.4"
 
 "ee-first@1.1.1":
   "integrity" "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="
@@ -4721,6 +4741,18 @@
   "integrity" "sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ=="
   "resolved" "https://registry.npmjs.org/flatted/-/flatted-3.2.7.tgz"
   "version" "3.2.7"
+
+"flubber@^0.4.2":
+  "integrity" "sha512-79RkJe3rA4nvRCVc2uXjj7U/BAUq84TS3KHn6c0Hr9K64vhj83ZNLUziNx4pJoBumSPhOl5VjH+Z0uhi+eE8Uw=="
+  "resolved" "https://registry.npmjs.org/flubber/-/flubber-0.4.2.tgz"
+  "version" "0.4.2"
+  dependencies:
+    "d3-array" "^1.2.0"
+    "d3-polygon" "^1.0.3"
+    "earcut" "^2.1.1"
+    "svg-path-properties" "^0.2.1"
+    "svgpath" "^2.2.1"
+    "topojson-client" "^3.0.0"
 
 "follow-redirects@^1.0.0", "follow-redirects@^1.15.0":
   "integrity" "sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA=="
@@ -7979,6 +8011,15 @@
     "rc-motion" "^2.0.0"
     "rc-util" "^5.19.2"
 
+"rc-tween-one@^3.0.6":
+  "integrity" "sha512-5zTSXyyv7bahDBQ/kJw/kNxxoBqTouttoelw8FOVOyWqmTMndizJEpvaj1N+yES5Xjss6Y2iVw+9vSJQZE8Z6g=="
+  "resolved" "https://registry.npmjs.org/rc-tween-one/-/rc-tween-one-3.0.6.tgz"
+  "version" "3.0.6"
+  dependencies:
+    "@babel/runtime" "^7.11.1"
+    "style-utils" "^0.3.4"
+    "tween-one" "^1.0.50"
+
 "rc-upload@~4.3.0":
   "integrity" "sha512-uVbtHFGNjHG/RyAfm9fluXB6pvArAGyAx8z7XzXXyorEgVIWj6mOlriuDm0XowDHYz4ycNK0nE0oP3cbFnzxiQ=="
   "resolved" "https://registry.npmjs.org/rc-upload/-/rc-upload-4.3.4.tgz"
@@ -8974,6 +9015,11 @@
   "resolved" "https://registry.npmjs.org/style-loader/-/style-loader-3.3.1.tgz"
   "version" "3.3.1"
 
+"style-utils@^0.3.4", "style-utils@^0.3.6":
+  "integrity" "sha512-RmGftIhY4tqtD1ERwKsVEDlt/M6UyxN/rcr95UmlooWmhtL0RwVUYJkpo1kSx3ppd9/JZzbknhy742zbMAawjQ=="
+  "resolved" "https://registry.npmjs.org/style-utils/-/style-utils-0.3.8.tgz"
+  "version" "0.3.8"
+
 "stylehacks@^5.1.1":
   "integrity" "sha512-sBpcd5Hx7G6seo7b1LkpttvTz7ikD0LlH5RmdcBNb6fFR0Fl7LQwHDFr300q4cwUqi+IYrFGmsIHieMBfnN/Bw=="
   "resolved" "https://registry.npmjs.org/stylehacks/-/stylehacks-5.1.1.tgz"
@@ -9033,6 +9079,16 @@
   "resolved" "https://registry.npmjs.org/svg-parser/-/svg-parser-2.0.4.tgz"
   "version" "2.0.4"
 
+"svg-path-properties@^0.2.1":
+  "integrity" "sha512-GmrB+b6woz6CCdQe6w1GHs/1lt25l7SR5hmhF8jRdarpv/OgjLyuQygLu1makJapixeb1aQhP/Oa1iKi93o/aQ=="
+  "resolved" "https://registry.npmjs.org/svg-path-properties/-/svg-path-properties-0.2.2.tgz"
+  "version" "0.2.2"
+
+"svg-path-properties@^1.0.4":
+  "integrity" "sha512-su+RztvMASBU4nsJ09F2Njcp5jOUY5SoRJmK5LUbVgFB4Ul12MyscWgCmyQ1frXSj8IEjapExbXDo4wjKKCbIg=="
+  "resolved" "https://registry.npmjs.org/svg-path-properties/-/svg-path-properties-1.1.0.tgz"
+  "version" "1.1.0"
+
 "svgo@^1.2.2":
   "integrity" "sha512-yhy/sQYxR5BkC98CY7o31VGsg014AKLEPxdfhora76l36hD9Rdy5NZA/Ocn6yayNPgSamYdtX2rFJdcv07AYVw=="
   "resolved" "https://registry.npmjs.org/svgo/-/svgo-1.3.2.tgz"
@@ -9064,6 +9120,11 @@
     "csso" "^4.2.0"
     "picocolors" "^1.0.0"
     "stable" "^0.1.8"
+
+"svgpath@^2.2.1":
+  "integrity" "sha512-OIWR6bKzXvdXYyO4DK/UWa1VA1JeKq8E+0ug2DG98Y/vOmMpfZNj+TIG988HjfYSqtcy/hFOtZq/n/j5GSESNg=="
+  "resolved" "https://registry.npmjs.org/svgpath/-/svgpath-2.6.0.tgz"
+  "version" "2.6.0"
 
 "symbol-tree@^3.2.4":
   "integrity" "sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw=="
@@ -9204,6 +9265,13 @@
   "resolved" "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz"
   "version" "1.0.1"
 
+"topojson-client@^3.0.0":
+  "integrity" "sha512-605uxS6bcYxGXw9qi62XyrV6Q3xwbndjachmNxu8HWTtVPxZfEJN9fd/SZS1Q54Sn2y0TMyMxFj/cJINqGHrKw=="
+  "resolved" "https://registry.npmjs.org/topojson-client/-/topojson-client-3.1.0.tgz"
+  "version" "3.1.0"
+  dependencies:
+    "commander" "2"
+
 "tough-cookie@^4.0.0":
   "integrity" "sha512-G9fqXWoYFZgTc2z8Q5zaHy/vJMjm+WV0AkAeHxVCQiEB1b+dGvWzFW6QV07cY5jQ5gRkeid2qIkzkxUnmoQZUQ=="
   "resolved" "https://registry.npmjs.org/tough-cookie/-/tough-cookie-4.1.2.tgz"
@@ -9259,6 +9327,23 @@
   "version" "3.21.0"
   dependencies:
     "tslib" "^1.8.1"
+
+"tween-functions@^1.2.0":
+  "integrity" "sha512-PZBtLYcCLtEcjL14Fzb1gSxPBeL7nWvGhO5ZFPGqziCcr8uvHp0NDmdjBchp6KHL+tExcg0m3NISmKxhU394dA=="
+  "resolved" "https://registry.npmjs.org/tween-functions/-/tween-functions-1.2.0.tgz"
+  "version" "1.2.0"
+
+"tween-one@^1.0.50":
+  "integrity" "sha512-UDIDT4xe7B8CULZi744POuzAbkzZrGdGLOjdUToIpQcoDoZ4Qe98n8QTd1FFtp3Kf/hvTfUYai9XM4SEY1Fi2w=="
+  "resolved" "https://registry.npmjs.org/tween-one/-/tween-one-1.2.2.tgz"
+  "version" "1.2.2"
+  dependencies:
+    "@babel/runtime" "^7.11.1"
+    "flubber" "^0.4.2"
+    "raf" "^3.4.1"
+    "style-utils" "^0.3.6"
+    "svg-path-properties" "^1.0.4"
+    "tween-functions" "^1.2.0"
 
 "type-check@^0.4.0", "type-check@~0.4.0":
   "integrity" "sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew=="

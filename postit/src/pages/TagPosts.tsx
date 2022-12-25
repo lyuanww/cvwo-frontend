@@ -3,10 +3,15 @@ import { Layout } from "antd";
 import SideBar from "../components/sidebar";
 import TopHeader from "../components/header";
 import PostList from "../components/postlist/postlist";
+import { useLocation } from "react-router-dom";
 
 const { Content } = Layout;
 
-const Home: React.FC = () => {
+const TagPost: React.FC = () => {
+  const { state } = useLocation();
+  const { tag } = state || {};
+  console.log(tag);
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <SideBar />
@@ -19,7 +24,8 @@ const Home: React.FC = () => {
               minHeight: 360,
             }}
           >
-            <PostList content="home" />
+            <h1>Category:{tag.name}</h1>
+            <PostList content="tags" />
           </div>
         </Content>
       </Layout>
@@ -27,4 +33,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default TagPost;

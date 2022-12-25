@@ -1,22 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Avatar, Button, List, Skeleton, Card } from "antd";
+import React, { useEffect } from "react";
+import { Avatar, List, Card } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./postlist.css";
-import { fetchPostsAsync, Statuses } from "../store/post/postSlice";
-import { selectPosts, selectStatus } from "../store/post/postSlice";
-import { useAppSelector, useAppDispatch } from "../store/hooks";
+import {
+  fetchPostsAsync,
+  fetchPostsByTagsAsync,
+  Statuses,
+} from "../../store/post/postSlice";
+import { selectPosts, selectStatus } from "../../store/post/postSlice";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import Tags from "../tags/tags";
+import { useParams } from "react-router-dom";
 
 const { Meta } = Card;
+interface Props {
+  content: string;
+}
 
-const PostList: React.FC = () => {
+const PostList = ({ content }: Props) => {
   const posts = useAppSelector(selectPosts);
   const status = useAppSelector(selectStatus);
   const dispatch = useAppDispatch();
+  const { id } = useParams();
 
   useEffect(() => {
-    dispatch(fetchPostsAsync());
-  }, [dispatch]);
+    if (id === undefined || content === "home") {
+      dispatch(fetchPostsAsync());
+    } else if (content === "tags") {
+      console.log(id);
+      console.log(parseInt(id, 10));
+      dispatch(fetchPostsByTagsAsync(parseInt(id, 10)));
+    }
+  }, [content, dispatch, id]);
 
   let contents;
 
@@ -40,6 +55,7 @@ const PostList: React.FC = () => {
               }
               description={item.body}
             />
+            <Tags tags={item.tags}></Tags>
           </Card>
         )}
       />

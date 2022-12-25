@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import produce from "immer";
 import { RootState } from "../store";
+import { TagState } from "../tag/tagSlice";
 import {
   fetchPosts,
   fetchMyPosts,
   createPost,
   destroyPost,
   updatePost,
+  fetchPostsByTags,
 } from "./actionsAPI";
 
 export enum Statuses {
@@ -33,6 +35,7 @@ export interface PostState {
   user: {
     username: string;
   };
+  tags: TagState[];
 }
 
 export interface PostFormData {
@@ -41,6 +44,7 @@ export interface PostFormData {
     title: string;
     body: string;
     likes?: number;
+    tags: TagState[];
   };
 }
 
@@ -55,6 +59,7 @@ export interface PostUpdateData {
     id: number;
     body: string;
     title: string;
+    tags: TagState[];
   };
 }
 const initialState: PostsState = {
@@ -70,6 +75,7 @@ const initialState: PostsState = {
       user: {
         username: "",
       },
+      tags: [],
     },
   ],
   status: Statuses.Initial,
@@ -84,6 +90,14 @@ export const fetchMyPostsAsync = createAsyncThunk(
   "posts/fetchMyPosts",
   async () => {
     const response = await fetchMyPosts();
+    return response;
+  }
+);
+
+export const fetchPostsByTagsAsync = createAsyncThunk(
+  "posts/fetchPostsByTags",
+  async (tag_id: number) => {
+    const response = await fetchPostsByTags(tag_id);
     return response;
   }
 );
@@ -180,6 +194,22 @@ export const postsSlice = createSlice({
       .addCase(destroyPostAsync.rejected, (state) => {
         return produce(state, (draftState) => {
           draftState.status = Statuses.Error;
+        });
+      })
+      .addCase(fetchPostsByTagsAsync.rejected, (state) => {
+        return produce(state, (draftState) => {
+          draftState.status = Statuses.Error;
+        });
+      })
+      .addCase(fetchPostsByTagsAsync.pending, (state) => {
+        return produce(state, (draftState) => {
+          draftState.status = Statuses.Loading;
+        });
+      })
+      .addCase(fetchPostsByTagsAsync.fulfilled, (state, action) => {
+        return produce(state, (draftState) => {
+          draftState.posts = action.payload;
+          draftState.status = Statuses.UpToDate;
         });
       });
   },

@@ -10,6 +10,7 @@ import MyPost from "./pages/MyPost";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import { useDispatch } from "react-redux";
+import TagPost from "./pages/TagPosts";
 
 function App() {
   const dispatch: Dispatch<any> = useDispatch();
@@ -21,6 +22,7 @@ function App() {
           <Route path="/mypost" element={<MyPost />} />
           <Route path="/createpost" element={<CreatePost />} />
           <Route path="/" element={<Home />} />
+          <Route path="/posts/tags/:id" element={<TagPost />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/deletepost" element={<DeletePost />} />

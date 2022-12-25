@@ -13,22 +13,31 @@ class Api::V1::PostsController < ApplicationController
     render json: @post
   end
 
-  def showByUser
+  def showByCurrentUser
     @posts = Post.where(user_id: session[:user_id]).all
+    render json: @posts
+  end
+
+  def showByTag
+    @tag = Tag.find(params[:id])
+    @taggables = @tag.taggables.where(tag_id: params[:id])
+    @post_ids = @taggables.pluck(:post_id)
+    @posts = Post.find(@post_ids)
     render json: @posts
   end
 
   # POST /posts
   def create
-    post = self.current_user.posts.build(post_params)
-    if post.save
+    @post = self.current_user.posts.build(post_params.except(:tags))
+    create_or_delete_posts_tags(@post, params[:post][:tags])
+    if @post.save
       render json: {
-        post: PostSerializer.new(post),
+        post: PostSerializer.new(@post),
       }
     else
       render json: {
         status: 500,
-        error: post.errors.full_messages,
+        error: @post.errors.full_messages,
       }
     end
   end
@@ -36,9 +45,9 @@ class Api::V1::PostsController < ApplicationController
   # PATCH/PUT /posts/1
 
   def update
-    # Only allow the owner of the post or an administrator to update the post
+    create_or_delete_posts_tags(@post, params[:post][:tags])
 
-    if @post.update(post_params)
+    if @post.update(post_params.except(:tags))
       render json: @post
     else
       render json: {
@@ -63,6 +72,13 @@ class Api::V1::PostsController < ApplicationController
 
   private
 
+  def create_or_delete_posts_tags(post, tags)
+    post.taggables.destroy_all
+    tags.each do |tag|
+      post.tags << Tag.find_or_create_by(name: tag[:name])
+    end
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_post
     @post = Post.find(params[:id])
@@ -70,6 +86,6 @@ class Api::V1::PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:id, :title, :body, :likes, :user_id)
+    params.require(:post).permit(:id, :title, :body, :likes, :user_id, { tags: [:name] })
   end
 end

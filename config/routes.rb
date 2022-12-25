@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
-  resources :comments
-  resources :posts
   namespace :api do
     namespace :v1 do
+      resources :tags
+      resources :comments
+      resources :posts
       resources :users
       resources :posts do
         collection do
-          get "/users/current", to: "posts#showByUser"
+          get "/current_user", to: "posts#showByCurrentUser"
+          get "/tags/:id", to: "posts#showByTag"
         end
       end
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Layout } from "antd";
 import SideBar from "../components/sidebar";
 import TopHeader from "../components/header";
-import PostList from "../components/mypostlist";
+import PostList from "../components/postlist/mypostlist";
 
 const { Content } = Layout;
 

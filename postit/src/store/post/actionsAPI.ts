@@ -20,7 +20,17 @@ export async function fetchPosts() {
 
 export async function fetchMyPosts() {
   return axios
-    .get(`${API_URL}/users/current`, { withCredentials: true })
+    .get(`${API_URL}/current_user`, { withCredentials: true })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log("Error:" + error);
+      return {} as PostsState;
+    });
+}
+
+export async function fetchPostsByTags(tag_id: number) {
+  return axios
+    .get(`${API_URL}/tags/${tag_id}`, { withCredentials: true })
     .then((response) => response.data)
     .catch((error) => {
       console.log("Error:" + error);
