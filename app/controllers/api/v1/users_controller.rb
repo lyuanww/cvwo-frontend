@@ -16,7 +16,7 @@ class Api::V1::UsersController < ApplicationController
     if @user.save
       session[:user_id] = @user.id
       render json: {
-        user: UserSerializer.new(user),
+        user: UserSerializer.new(@user),
       }
     else
       @user.save

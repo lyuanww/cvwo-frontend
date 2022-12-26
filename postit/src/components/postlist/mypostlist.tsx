@@ -8,6 +8,7 @@ import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { useNavigate } from "react-router-dom";
 import Tags from "../tags/tags";
 import CreateComment from "../comments/createcomment";
+import Comments from "../comments/comments";
 const { TextArea } = Input;
 
 const { Meta } = Card;
@@ -82,6 +83,8 @@ const PostList: React.FC = () => {
               />
               <Tags tags={item.tags}></Tags>
               <CreateComment post_id={item.id!}></CreateComment>
+              <h1>Comments:</h1>
+              <Comments comments={item.comments} />
             </Card>
           )}
         />

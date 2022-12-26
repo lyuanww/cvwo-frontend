@@ -37,8 +37,11 @@ const CreateComment = ({ post_id }: Props) => {
     console.log(commentFormData);
     dispatch(createCommentAsync(commentFormData));
     resetState();
+    refreshPage();
   };
-
+  const refreshPage = () => {
+    window.location.reload();
+  };
   const resetState = () => {
     setComment("");
   };

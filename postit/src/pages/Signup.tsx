@@ -26,7 +26,6 @@ const Signup: React.FC = () => {
   };
 
   const onFinish = () => {
-    dispatch(addUser(username, email));
     const user = {
       username: username.trim(),
       first_name: firstName.trim(),
@@ -34,7 +33,7 @@ const Signup: React.FC = () => {
       email: email.trim(),
       password: password,
     };
-    console.log(JSON.stringify(user));
+
     dispatch(addUser(user, handleSuccess));
   };
 

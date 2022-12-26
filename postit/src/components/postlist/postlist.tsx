@@ -11,6 +11,8 @@ import { selectPosts, selectStatus } from "../../store/post/postSlice";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import Tags from "../tags/tags";
 import { useParams } from "react-router-dom";
+import CreateComment from "../comments/createcomment";
+import Comments from "../comments/comments";
 
 const { Meta } = Card;
 interface Props {
@@ -56,6 +58,9 @@ const PostList = ({ content }: Props) => {
               description={item.body}
             />
             <Tags tags={item.tags}></Tags>
+            <CreateComment post_id={item.id!}></CreateComment>
+            <h1>Comments:</h1>
+            <Comments comments={item.comments} />
           </Card>
         )}
       />
