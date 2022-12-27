@@ -3,20 +3,26 @@ import { UserOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../store/hooks";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "react";
-import { logoutUser } from "../store/user/actions";
 import { useNavigate } from "react-router-dom";
+import {
+  logout,
+  logoutSessionAsync,
+  selectSession,
+} from "../store/session/sessionSlice";
 
 const { Header } = Layout;
 const TopHeader: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const navigate = useNavigate();
-  const user = useAppSelector((state) => state.user);
+  const session = useAppSelector(selectSession);
   const handleSuccess = () => {
     navigate("/login");
   };
 
   const onClick = () => {
-    dispatch(logoutUser(handleSuccess));
+    dispatch(logoutSessionAsync());
+    dispatch(logout());
+    handleSuccess();
   };
   return (
     <Header className="header">
@@ -30,7 +36,7 @@ const TopHeader: React.FC = () => {
           icon={<UserOutlined />}
         />
         <p style={{ position: "absolute", lineHeight: 3, right: 100 }}>
-          {user.username}
+          {session.username}
         </p>
       </Menu>
     </Header>

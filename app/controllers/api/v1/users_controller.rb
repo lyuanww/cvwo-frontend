@@ -12,17 +12,17 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      session[:user_id] = @user.id
+    user = User.new(user_params)
+    if user.save
+      session[:user_id] = user.id
       render json: {
-        user: UserSerializer.new(@user),
+        user: UserSerializer.new(user),
       }
     else
-      @user.save
+      user.save
       render json: {
         status: 500,
-        error: @user.errors.full_messages,
+        error: user.errors.full_messages,
       }
     end
   end

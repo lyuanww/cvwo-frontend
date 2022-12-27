@@ -22,7 +22,7 @@ export enum Statuses {
 
 export interface PostsState {
   posts: PostState[];
-  status: string;
+  status: Statuses;
 }
 
 export interface PostState {
@@ -175,7 +175,7 @@ export const postsSlice = createSlice({
       })
       .addCase(createPostAsync.fulfilled, (state, action) => {
         return produce(state, (draftState) => {
-          draftState.posts.push(action.payload);
+          draftState.posts.push(action.payload.post);
           draftState.status = Statuses.UpToDate;
         });
       })

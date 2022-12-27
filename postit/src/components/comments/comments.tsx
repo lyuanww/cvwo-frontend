@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Avatar, List, Card, Button, Modal } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { useNavigate } from "react-router-dom";
 import {
   CommentState,
   destroyCommentAsync,
   updateCommentAsync,
 } from "../../store/comment/commentSlice";
 import TextArea from "antd/es/input/TextArea";
+import { selectSession, selectStatus } from "../../store/session/sessionSlice";
 
 const { Meta } = Card;
 interface Props {
@@ -23,7 +23,7 @@ interface EditState {
 const Comments = ({ comments }: Props) => {
   const [comment, setComment] = useState("");
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
+  const session = useAppSelector(selectSession);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const setInitialEditStates = (comments: CommentState[]) => {
@@ -38,7 +38,7 @@ const Comments = ({ comments }: Props) => {
   );
 
   const commentByCurrentUser = (user_id: number) => {
-    return user.id === user_id;
+    return session.id === user_id;
   };
 
   const isEditing = (user_id: number) => {

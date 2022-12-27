@@ -1,4 +1,3 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :first_name, :last_name, :email
-  has_many :comments
+  attributes :id, :username, :last_name, :first_name, :last_name
 end

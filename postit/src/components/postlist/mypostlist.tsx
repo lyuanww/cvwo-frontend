@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Avatar, Button, List, Card, Input, Divider } from "antd";
+import { Avatar, Button, List, Card, Divider } from "antd";
 import { UserOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./postlist.css";
 import { fetchMyPostsAsync, Statuses } from "../../store/post/postSlice";
@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Tags from "../tags/tags";
 import CreateComment from "../comments/createcomment";
 import Comments from "../comments/comments";
-const { TextArea } = Input;
+import { selectSession } from "../../store/session/sessionSlice";
 
 const { Meta } = Card;
 
@@ -19,10 +19,12 @@ const PostList: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const session = useAppSelector(selectSession);
+  console.log(session);
   useEffect(() => {
     dispatch(fetchMyPostsAsync());
   }, [dispatch]);
-  console.log(posts);
+
   const onDelete = (item: any) => {
     console.log(item);
     navigate("/deletepost", { state: { item } });

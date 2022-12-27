@@ -1,10 +1,12 @@
 import React, { Dispatch, useState } from "react";
 import { Layout, Menu, Button, Input, Form } from "antd";
 import { useDispatch } from "react-redux";
-import { addUser } from "../store/user/actions";
+
 import { useNavigate } from "react-router-dom";
 
+import { createUserAsync } from "../store/user/userSlice";
 const { Content, Header } = Layout;
+
 const Signup: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -15,26 +17,29 @@ const Signup: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const navigate = useNavigate();
 
-  const handleSuccess = () => {
+  const resetState = () => {
     setUsername("");
     setPassword("");
     setPasswordConfirm("");
     setLastName("");
     setFirstName("");
     setEmail("");
-    navigate("/");
+    navigate("/login");
   };
 
   const onFinish = () => {
-    const user = {
-      username: username.trim(),
-      first_name: firstName.trim(),
-      last_name: lastName.trim(),
-      email: email.trim(),
-      password: password,
+    const formData = {
+      user: {
+        username: username.trim(),
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+        email: email.trim(),
+        password: password,
+      },
     };
 
-    dispatch(addUser(user, handleSuccess));
+    dispatch(createUserAsync(formData));
+    resetState();
   };
 
   return (

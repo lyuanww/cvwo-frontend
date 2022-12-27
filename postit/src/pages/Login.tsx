@@ -1,8 +1,8 @@
 import React, { Dispatch, useState } from "react";
 import { Layout, Menu, Button, Input, Form } from "antd";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../store/user/actions";
 import { useNavigate } from "react-router-dom";
+import { loginSessionAsync } from "../store/session/sessionSlice";
 
 const { Content, Header } = Layout;
 const Login: React.FC = () => {
@@ -11,7 +11,7 @@ const Login: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const navigate = useNavigate();
 
-  const handleSuccess = () => {
+  const resetState = () => {
     setUsername("");
     setPassword("");
 
@@ -20,11 +20,15 @@ const Login: React.FC = () => {
 
   const onFinish = () => {
     const user = {
-      username: username.trim(),
-      password: password,
+      session: {
+        username: username.trim(),
+        password: password,
+      },
     };
 
-    dispatch(loginUser(user, handleSuccess));
+    dispatch(loginSessionAsync(user));
+
+    resetState();
   };
 
   return (
