@@ -71,7 +71,9 @@ class Api::V1::PostsController < ApplicationController
   end
 
   private
-
+=begin
+This method is referenced from https://www.youtube.com/watch?v=03enr4NNgLI
+=end
   def create_or_delete_posts_tags(post, tags)
     post.taggables.destroy_all
     tags.each do |tag|

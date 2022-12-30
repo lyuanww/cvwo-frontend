@@ -57,7 +57,9 @@ const Post: React.FC = () => {
   const showInput = () => {
     setInputVisible(true);
   };
-
+  /*
+ Tag structure is referenced from the antd tag Library https://ant.design/components/tag/
+ */
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };

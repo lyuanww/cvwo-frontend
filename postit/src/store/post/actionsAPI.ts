@@ -6,6 +6,9 @@ import {
 } from "./postSlice";
 import axios from "axios";
 
+/*
+API requests structure (for posts) are referenced from https://www.youtube.com/watch?v=ZGnMqKg-Cq4&ab_channel=Deanin
+*/
 const API_URL = "http://localhost:3000/api/v1/posts";
 
 export async function fetchPosts() {

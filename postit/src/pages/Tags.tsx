@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, List, Card } from "antd";
 import SideBar from "../components/sidebar";
 import TopHeader from "../components/header";
@@ -33,26 +33,37 @@ const Tags: React.FC = () => {
   const tagsPerRow = sliceIntoChunks(tags);
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh" }} hasSider>
       <SideBar />
       <Layout className="site-layout">
         <TopHeader />
-        <Content style={{ margin: "0 16px" }}>
+        <Content
+          style={{
+            alignSelf: "center",
+            margin: "0 16px",
+          }}
+        >
           <div
             style={{
               padding: 50,
-              minHeight: 360,
+
+              minHeight: 100,
             }}
           >
             <h1>Tags:</h1>
+
             {tagsPerRow.map((tags) => (
               <List
-                grid={{ gutter: 16 }}
+                grid={{ gutter: 12 }}
                 dataSource={tags}
-                style={{ margin: "auto" }}
                 renderItem={(item) => (
                   <List.Item>
-                    <Card style={{ width: 200 }} onClick={() => onClick(item)}>
+                    <Card
+                      style={{
+                        width: 200,
+                      }}
+                      onClick={() => onClick(item)}
+                    >
                       {item.name}
                     </Card>
                   </List.Item>

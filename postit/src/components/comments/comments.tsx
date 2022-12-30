@@ -41,6 +41,8 @@ const Comments = ({ comments }: Props) => {
     return session.id === user_id;
   };
 
+  const noComments = comments.length === 0;
+
   const isEditing = (user_id: number) => {
     const check = (item: EditState) => item.id === user_id;
     const item: EditState = editing.find(check)!;
@@ -88,7 +90,7 @@ const Comments = ({ comments }: Props) => {
     refreshPage();
   };
 
-  return (
+  return !noComments ? (
     <List
       className="demo-loadmore-list"
       itemLayout="horizontal"
@@ -146,6 +148,8 @@ const Comments = ({ comments }: Props) => {
         </Card>
       )}
     />
+  ) : (
+    <div>No comments</div>
   );
 };
 

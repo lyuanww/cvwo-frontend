@@ -30,11 +30,11 @@ const DeletePost = () => {
     };
 
     dispatch(destroyPostAsync(payload));
-    navigate("/mypost");
+    navigate("/myposts");
   };
 
   const onClickNo = () => {
-    navigate("/mypost");
+    navigate("/myposts");
   };
 
   contents = (

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Avatar, List, Card, Button } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Avatar, List, Card, Button, Divider } from "antd";
+import { UserOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./postlist.css";
 import {
   fetchPostsAsync,
@@ -13,6 +13,7 @@ import Tags from "../tags/tags";
 import { useNavigate, useParams } from "react-router-dom";
 import CreateComment from "../comments/createcomment";
 import Comments from "../comments/comments";
+import { selectSession } from "../../store/session/sessionSlice";
 
 const { Meta } = Card;
 interface Props {
@@ -22,10 +23,22 @@ interface Props {
 const PostList = ({ content }: Props) => {
   const posts = useAppSelector(selectPosts);
   const status = useAppSelector(selectStatus);
+  const session = useAppSelector(selectSession);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams();
 
+  const onDelete = (item: any) => {
+    console.log(item);
+    navigate("/deletepost", { state: { item } });
+  };
+
+  const onEdit = (item: any) => {
+    navigate("/editpost", { state: { item } });
+  };
+  const postByCurrentUser = (user_id: number) => {
+    return session.id === user_id;
+  };
   useEffect(() => {
     if (id !== undefined && content === "tags") {
       console.log(parseInt(id, 10));
@@ -51,7 +64,24 @@ const PostList = ({ content }: Props) => {
           itemLayout="horizontal"
           dataSource={posts}
           renderItem={(item) => (
-            <Card style={{ margin: "auto", width: 700 }}>
+            <Card
+              extra={
+                postByCurrentUser(item.user.id!) && (
+                  <div>
+                    <EditOutlined
+                      style={{ fontSize: "32px" }}
+                      onClick={() => onEdit(item)}
+                    />
+                    <Divider type="vertical" />
+                    <DeleteOutlined
+                      style={{ fontSize: "32px" }}
+                      onClick={() => onDelete(item)}
+                    />
+                  </div>
+                )
+              }
+              style={{ margin: "auto", width: 700 }}
+            >
               <Meta
                 avatar={<Avatar icon={<UserOutlined />} />}
                 title={

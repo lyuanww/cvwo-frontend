@@ -12,6 +12,9 @@ import {
   fetchPostsByTags,
 } from "./actionsAPI";
 
+/*
+PostSlice structure and createAsyncThunk methods are referenced from https://www.youtube.com/watch?v=ZGnMqKg-Cq4&ab_channel=Deanin
+*/
 export enum Statuses {
   Initial = "Not Fetched",
   Loading = "Loading...",
@@ -34,6 +37,7 @@ export interface PostState {
   updatedAt?: string;
   user_id?: number | null;
   user: {
+    id: null;
     username: string;
   };
   tags: TagState[];
@@ -75,6 +79,7 @@ const initialState: PostsState = {
       updatedAt: "",
       user_id: null,
       user: {
+        id: null,
         username: "",
       },
       tags: [],

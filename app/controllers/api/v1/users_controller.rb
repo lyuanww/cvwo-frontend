@@ -10,7 +10,10 @@ class Api::V1::UsersController < ApplicationController
     @user = User.find(params[:id])
     render json: @user
   end
-
+=begin
+  Implementations of sessions are referenced from 
+  https://medium.com/@altanner/react-user-authentication-with-rails-sessions-and-redux-194b5d31fe5a
+=end
   def create
     user = User.new(user_params)
     if user.save

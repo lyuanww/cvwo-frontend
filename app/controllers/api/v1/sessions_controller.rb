@@ -1,4 +1,9 @@
 class Api::V1::SessionsController < ApplicationController
+
+=begin
+  Implementations of sessions are referenced from 
+  https://medium.com/@altanner/react-user-authentication-with-rails-sessions-and-redux-194b5d31fe5a
+=end
   def create
     user = User.find_by(username: session_params[:username])
     if user && user.authenticate(session_params[:password])

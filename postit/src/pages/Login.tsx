@@ -1,7 +1,7 @@
 import React, { Dispatch, useState } from "react";
 import { Layout, Menu, Button, Input, Form } from "antd";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginSessionAsync } from "../store/session/sessionSlice";
 
 const { Content, Header } = Layout;
@@ -75,7 +75,9 @@ const Login: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Item>
-
+            <div>
+              <Link to="/signup">Not a user? Sign up now!</Link>
+            </div>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>

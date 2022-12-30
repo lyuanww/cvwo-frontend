@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { createUserAsync } from "../store/user/userSlice";
+
+import { useAppDispatch } from "../store/hooks";
 const { Content, Header } = Layout;
 
 const Signup: React.FC = () => {
@@ -14,8 +16,10 @@ const Signup: React.FC = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  /* Password match system is referenced from the antd form library https://ant.design/components/form */
 
   const resetState = () => {
     setUsername("");
@@ -86,6 +90,7 @@ const Signup: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Item>
+
             <Form.Item
               name="password_confirmation"
               label="Reenter your password"

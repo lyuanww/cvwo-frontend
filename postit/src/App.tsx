@@ -25,7 +25,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/mypost" element={<MyPost />} />
+          <Route path="/myposts" element={<MyPost />} />
           <Route path="/createpost" element={<CreatePost />} />
           <Route path="/" element={<Home />} />
           <Route path="/posts/tags/:id" element={<TagPost />} />

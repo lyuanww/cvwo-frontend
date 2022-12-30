@@ -1,11 +1,11 @@
-import { Layout, Menu } from "antd";
+import { Divider, Layout, Menu } from "antd";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const { Sider } = Layout;
 
 const SideBar: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <Sider
@@ -17,7 +17,7 @@ const SideBar: React.FC = () => {
         position: "absolute",
         top: 13,
       }}
-      style={{ background: "rgba(255, 255, 255, 0.918)" }}
+      style={{ background: "rgba(1, 12, 36, 0.918)" }}
       onCollapse={(value) => setCollapsed(value)}
     >
       <div
@@ -26,19 +26,23 @@ const SideBar: React.FC = () => {
           margin: 16,
         }}
       />
-      <Menu
-        style={{ color: "blue", background: "rgba(246, 244, 247, 0.918)" }}
-        defaultSelectedKeys={["1"]}
-        mode="inline"
-      >
-        <Link to="/home">
-          <Menu.Item key="/dashboard">Dashboard</Menu.Item>
+      <Menu style={{ background: "rgba(5, 31, 91, 0.918)" }} mode="inline">
+        <Link to="/">
+          <Menu.Item key="/">Home</Menu.Item>
         </Link>
-        <Menu.SubMenu title="d" key="/dashboard">
+
+        <Link to="/myposts">
+          <Menu.Item key="/myposts">My Post</Menu.Item>
+        </Link>
+
+        <Link to="/tags">
+          <Menu.Item key="/tags">Tags</Menu.Item>
+        </Link>
+        {/* <Menu.SubMenu title="d" key="/dashboard">
           <Link to="/home">
             <Menu.Item key="/dashboard">Dashboard</Menu.Item>
           </Link>
-        </Menu.SubMenu>
+        </Menu.SubMenu> */}
 
         {/* <Link to="/add-recipe">
                <Menu.Item key="/add-recipe">
