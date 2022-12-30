@@ -84,13 +84,20 @@ const PostList = ({ content }: Props) => {
             >
               <Meta
                 avatar={<Avatar icon={<UserOutlined />} />}
+                style={{ marginRight: 60 }}
                 title={
-                  <div>
+                  <>
                     <div style={{ textAlign: "left" }}>
                       {item.user.username}
                     </div>
-                    <div style={{ textAlign: "center" }}>{item.title}</div>
-                  </div>
+                    <div
+                      style={{
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.title}
+                    </div>
+                  </>
                 }
                 description={item.body}
               />
