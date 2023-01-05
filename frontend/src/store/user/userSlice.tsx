@@ -22,6 +22,7 @@ export interface UserState {
   first_name: string;
   last_name: string;
   email: string;
+  image_url: string | null;
 }
 
 export interface UserFormData {
@@ -34,6 +35,11 @@ export interface UserFormData {
   };
 }
 
+export interface UserFinalFormData {
+  user: UserFormData;
+  pic: FormData;
+}
+
 const initialState: UsersState = {
   users: [
     {
@@ -42,6 +48,7 @@ const initialState: UsersState = {
       email: "",
       first_name: "",
       last_name: "",
+      image_url: null,
     },
   ],
   status: Statuses.Initial,
@@ -49,8 +56,8 @@ const initialState: UsersState = {
 
 export const createUserAsync = createAsyncThunk(
   "users/createUser",
-  async (payload: UserFormData) => {
-    const response = await createUser(payload);
+  async (payload: UserFinalFormData) => {
+    const response = await createUser(payload.user, payload.pic);
 
     return response;
   }

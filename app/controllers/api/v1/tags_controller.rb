@@ -1,5 +1,6 @@
 class Api::V1::TagsController < ApplicationController
   before_action :set_tag, only: %i[ show update destroy ]
+  after_action :filter_unused_tags
 
   # GET /tags
   def index
@@ -42,6 +43,16 @@ class Api::V1::TagsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+
+  def filter_unused_tags
+    @tags = Tag.all
+    @taggables = Taggable.all
+    @tags.each do |tag|
+      if !@taggables.exists?(tag_id: tag.id)
+        tag.destroy
+      end
+    end
+  end
 
   def set_tag
     @tag = Tag.find(params[:id])

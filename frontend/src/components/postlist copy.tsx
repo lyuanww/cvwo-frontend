@@ -77,7 +77,7 @@ const PostList: React.FC = () => {
         <Button onClick={onLoadMore}>loading more</Button>
       </div>
     ) : (
-      <div className="footer"> END </div>
+      <div className="footer"> You have reached the end. </div>
     );
 
   return (

@@ -41,11 +41,13 @@ const TopHeader: React.FC = () => {
             Log Out
           </Menu.Item>
         </div>
-        <Avatar
-          style={{ position: "absolute", right: 170 }}
-          size={60}
-          icon={<UserOutlined />}
-        />
+        <div style={{ position: "absolute", right: 170 }}>
+          {session.image_url ? (
+            <Avatar size={40} src={session.image_url} />
+          ) : (
+            <Avatar size={40} icon={<UserOutlined />} />
+          )}
+        </div>
         <p style={{ position: "absolute", lineHeight: 3, right: 130 }}>
           {session.username}
         </p>

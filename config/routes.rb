@@ -3,7 +3,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :tags
       resources :comments
-      resources :users
+      resources :users do
+        collection do
+          post "/add_profile_pic", to: "users#add_profile_pic"
+        end
+      end
       resources :posts do
         collection do
           get "/current_user", to: "posts#showByCurrentUser"

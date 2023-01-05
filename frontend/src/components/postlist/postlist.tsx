@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, List, Card, Button, Divider } from "antd";
 import { UserOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./postlist.css";
@@ -20,6 +20,8 @@ interface Props {
   content: string;
 }
 
+const pageSize = 5;
+
 const PostList = ({ content }: Props) => {
   const posts = useAppSelector(selectPosts);
   const status = useAppSelector(selectStatus);
@@ -27,6 +29,17 @@ const PostList = ({ content }: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams();
+  const [current, setCurrent] = useState(1);
+  const [minIndex, setMinIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(pageSize);
+
+  const slicePosts = posts.slice(minIndex, maxIndex);
+
+  const onChange = (page: number) => {
+    setCurrent(page);
+    setMinIndex(pageSize * (page - 1));
+    setMaxIndex(pageSize * page);
+  };
 
   const onDelete = (item: any) => {
     console.log(item);
@@ -62,7 +75,15 @@ const PostList = ({ content }: Props) => {
         <List
           className="demo-loadmore-list"
           itemLayout="horizontal"
-          dataSource={posts}
+          dataSource={slicePosts}
+          size="large"
+          pagination={{
+            style: { marginRight: 200 },
+            current: current,
+            total: posts.length,
+            pageSize: pageSize,
+            onChange: onChange,
+          }}
           renderItem={(item) => (
             <Card
               extra={
@@ -83,7 +104,13 @@ const PostList = ({ content }: Props) => {
               style={{ margin: "auto", width: 700 }}
             >
               <Meta
-                avatar={<Avatar icon={<UserOutlined />} />}
+                avatar={
+                  item.user.image_url ? (
+                    <Avatar src={item.user.image_url} />
+                  ) : (
+                    <Avatar icon={<UserOutlined />} />
+                  )
+                }
                 style={{ marginRight: 60 }}
                 title={
                   <>

@@ -11,6 +11,9 @@ import TextArea from "antd/es/input/TextArea";
 import { selectSession, selectStatus } from "../../store/session/sessionSlice";
 
 const { Meta } = Card;
+
+const pageSize = 1;
+
 interface Props {
   comments: CommentState[];
 }
@@ -24,7 +27,11 @@ const Comments = ({ comments }: Props) => {
   const [comment, setComment] = useState("");
   const dispatch = useAppDispatch();
   const session = useAppSelector(selectSession);
+
+  const [index, setIndex] = useState(pageSize);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const list = comments.slice(0, index);
 
   const setInitialEditStates = (comments: CommentState[]) => {
     return comments.map((item) => {
@@ -36,6 +43,19 @@ const Comments = ({ comments }: Props) => {
   const [editing, setEditing] = useState<EditState[]>(
     setInitialEditStates(comments)
   );
+
+  const onLoadMore = () => {
+    setIndex(index + pageSize);
+  };
+
+  const loadMore =
+    comments.length !== index ? (
+      <div className="footer">
+        <Button onClick={onLoadMore}>loading more</Button>
+      </div>
+    ) : (
+      <div className="footer"> You have reached the end. </div>
+    );
 
   const commentByCurrentUser = (user_id: number) => {
     return session.id === user_id;
@@ -94,8 +114,9 @@ const Comments = ({ comments }: Props) => {
     <List
       className="demo-loadmore-list"
       itemLayout="horizontal"
+      loadMore={loadMore}
       style={{ position: "relative", margin: 20 }}
-      dataSource={comments}
+      dataSource={list}
       renderItem={(item) => (
         <Card
           style={{
@@ -122,7 +143,13 @@ const Comments = ({ comments }: Props) => {
           )}
           {!isEditing(item.id!) ? (
             <Meta
-              avatar={<Avatar icon={<UserOutlined />} />}
+              avatar={
+                item.user.image_url ? (
+                  <Avatar src={item.user.image_url} />
+                ) : (
+                  <Avatar icon={<UserOutlined />} />
+                )
+              }
               title={
                 <div>
                   <div style={{ textAlign: "left" }}>{item.user.username}</div>

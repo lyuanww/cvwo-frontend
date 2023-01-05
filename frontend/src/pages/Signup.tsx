@@ -1,12 +1,13 @@
-import React, { Dispatch, useState } from "react";
-import { Layout, Menu, Button, Input, Form } from "antd";
-import { useDispatch } from "react-redux";
-
+import React, { useState } from "react";
+import { Layout, Menu, Button, Input, Form, Upload, UploadFile } from "antd";
 import { useNavigate } from "react-router-dom";
-
+import { PlusOutlined } from "@ant-design/icons";
 import { createUserAsync } from "../store/user/userSlice";
 
 import { useAppDispatch } from "../store/hooks";
+import { RcFile, UploadProps } from "antd/es/upload";
+import { addProfilePicture } from "../store/user/actionsAPI";
+
 const { Content, Header } = Layout;
 
 const Signup: React.FC = () => {
@@ -16,6 +17,7 @@ const Signup: React.FC = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [avatar, setAvatar] = useState<UploadFile<any>>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -30,19 +32,38 @@ const Signup: React.FC = () => {
     setEmail("");
     navigate("/login");
   };
+  const handleChange: UploadProps["onChange"] = ({ file }) => {
+    setAvatar(file);
+  };
 
   const onFinish = () => {
-    const formData = {
+    const picData = new FormData();
+
+    if (!avatar) {
+      alert("Please select a file!");
+      return;
+    }
+
+    picData.append("user[username]", username);
+    picData.append("user[avatar]", avatar as RcFile);
+
+    const userData = {
       user: {
         username: username.trim(),
         first_name: firstName.trim(),
         last_name: lastName.trim(),
         email: email.trim(),
         password: password,
+        avatar: picData,
       },
     };
 
-    dispatch(createUserAsync(formData));
+    const data = {
+      user: userData,
+      pic: picData,
+    };
+
+    dispatch(createUserAsync(data));
     resetState();
   };
 
@@ -135,6 +156,22 @@ const Signup: React.FC = () => {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
+            </Form.Item>
+            <Form.Item
+              label="Profile Picture (optional)"
+              valuePropName="fileList"
+            >
+              <Upload
+                onChange={handleChange}
+                maxCount={1}
+                beforeUpload={() => false}
+                listType="picture-card"
+              >
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              </Upload>
             </Form.Item>
 
             <Button type="primary" htmlType="submit">

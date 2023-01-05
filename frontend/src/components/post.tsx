@@ -38,6 +38,10 @@ const Post: React.FC = () => {
     setBody("");
     navigate("/");
   };
+
+  const onClickCancel = () => {
+    navigate("/");
+  };
   useEffect(() => {
     if (inputVisible) {
       inputRef.current?.focus();
@@ -156,6 +160,9 @@ const Post: React.FC = () => {
         </div>
         <Button type="primary" htmlType="submit">
           Submit
+        </Button>
+        <Button type="primary" onClick={onClickCancel}>
+          Cancel
         </Button>
       </Form>
     </>

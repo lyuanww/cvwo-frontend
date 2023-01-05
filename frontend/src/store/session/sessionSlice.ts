@@ -16,6 +16,7 @@ export interface SessionState {
     id: number | null;
     isLoggedIn: boolean;
     username: string;
+    image_url: string | null;
   };
   status: Statuses;
 }
@@ -51,7 +52,7 @@ export const fetchCurrentSessionAsync = createAsyncThunk(
 );
 
 const initialState: SessionState = {
-  session: { id: null, isLoggedIn: false, username: "" },
+  session: { id: null, isLoggedIn: false, username: "", image_url: null },
   status: Statuses.Initial,
 };
 
@@ -82,6 +83,7 @@ export const sessionSlice = createSlice({
           draftState.session.isLoggedIn = true;
           draftState.session.id = action.payload.user.id;
           draftState.session.username = action.payload.user.username;
+          draftState.session.image_url = action.payload.user.image_url;
           draftState.status = Statuses.UpToDate;
         });
       })
@@ -100,6 +102,7 @@ export const sessionSlice = createSlice({
           draftState.session.isLoggedIn = true;
           draftState.session.id = action.payload.user.id;
           draftState.session.username = action.payload.user.username;
+          draftState.session.image_url = action.payload.user.image_url;
           draftState.status = Statuses.UpToDate;
         });
       })

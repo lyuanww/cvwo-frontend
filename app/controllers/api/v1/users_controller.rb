@@ -16,6 +16,7 @@ class Api::V1::UsersController < ApplicationController
 =end
   def create
     user = User.new(user_params)
+    user.avatar = nil
     if user.save
       session[:user_id] = user.id
       render json: {
@@ -30,9 +31,14 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def add_profile_pic
+    @user = User.find_by(username: user_params[:username])
+    @user.update(avatar: user_params[:avatar])
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:id, :username, :first_name, :last_name, :email, :password)
+    params.require(:user).permit(:id, :username, :first_name, :last_name, :email, :password, :avatar)
   end
 end

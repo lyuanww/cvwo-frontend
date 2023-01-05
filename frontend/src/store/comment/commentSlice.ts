@@ -24,6 +24,7 @@ export interface CommentState {
   user: {
     id: number | null;
     username: string;
+    image_url: string | null;
   };
 }
 export interface CommentFormData {
@@ -55,6 +56,7 @@ const initialState: CommentsState = {
       user: {
         id: null,
         username: "",
+        image_url: "",
       },
     },
   ],

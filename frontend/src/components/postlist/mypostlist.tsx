@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Button, List, Card, Divider } from "antd";
 import { UserOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./postlist.css";
@@ -13,14 +13,24 @@ import { selectSession } from "../../store/session/sessionSlice";
 
 const { Meta } = Card;
 
+const pageSize = 5;
+
 const PostList: React.FC = () => {
   const posts = useAppSelector(selectPosts);
   const status = useAppSelector(selectStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [current, setCurrent] = useState(1);
+  const [minIndex, setMinIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(pageSize);
 
-  const session = useAppSelector(selectSession);
-  console.log(session);
+  const slicePosts = posts.slice(minIndex, maxIndex);
+
+  const onChange = (page: number) => {
+    setCurrent(page);
+    setMinIndex(pageSize * (page - 1));
+    setMaxIndex(pageSize * page);
+  };
   useEffect(() => {
     dispatch(fetchMyPostsAsync());
   }, [dispatch]);
@@ -48,7 +58,14 @@ const PostList: React.FC = () => {
         <List
           className="demo-loadmore-list"
           itemLayout="horizontal"
-          dataSource={posts}
+          dataSource={slicePosts}
+          pagination={{
+            style: { marginRight: 200 },
+            current: current,
+            total: posts.length,
+            pageSize: pageSize,
+            onChange: onChange,
+          }}
           renderItem={(item) => (
             <Card
               extra={
@@ -72,7 +89,13 @@ const PostList: React.FC = () => {
               }}
             >
               <Meta
-                avatar={<Avatar icon={<UserOutlined />} />}
+                avatar={
+                  item.user.image_url ? (
+                    <Avatar src={item.user.image_url} />
+                  ) : (
+                    <Avatar icon={<UserOutlined />} />
+                  )
+                }
                 title={
                   <div>
                     <div style={{ textAlign: "left" }}>

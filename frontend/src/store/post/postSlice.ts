@@ -37,8 +37,9 @@ export interface PostState {
   updatedAt?: string;
   user_id?: number | null;
   user: {
-    id: null;
+    id: number | null;
     username: string;
+    image_url: string | null;
   };
   tags: TagState[];
   comments: CommentState[];
@@ -81,6 +82,7 @@ const initialState: PostsState = {
       user: {
         id: null,
         username: "",
+        image_url: null,
       },
       tags: [],
       comments: [],

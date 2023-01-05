@@ -4,7 +4,7 @@ class Api::V1::PostsController < ApplicationController
   # GET /posts
   def index
     @posts = Post.all
-    render json: @posts
+    render json: @posts, each_serializer: PostSerializer, include: ["comments", "comments.user", "user", "tags"]
   end
 
   # GET /posts/1
@@ -15,7 +15,7 @@ class Api::V1::PostsController < ApplicationController
 
   def showByCurrentUser
     @posts = Post.where(user_id: session[:user_id]).all
-    render json: @posts
+    render json: @posts, each_serializer: PostSerializer, include: ["comments", "comments.user", "user", "tags"]
   end
 
   def showByTag
@@ -23,7 +23,7 @@ class Api::V1::PostsController < ApplicationController
     @taggables = @tag.taggables.where(tag_id: params[:id])
     @post_ids = @taggables.pluck(:post_id)
     @posts = Post.find(@post_ids)
-    render json: @posts
+    render json: @posts, each_serializer: PostSerializer, include: ["comments", "comments.user", "user", "tags"]
   end
 
   # POST /posts
@@ -88,6 +88,6 @@ This method is referenced from https://www.youtube.com/watch?v=03enr4NNgLI
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:id, :title, :body, :likes, :user_id, { tags: [:name] })
+    params.require(:post).permit(:id, :title, :body, :likes, :user_id, :avatar, { tags: [:name] })
   end
 end

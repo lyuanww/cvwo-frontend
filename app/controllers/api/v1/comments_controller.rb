@@ -5,7 +5,7 @@ class Api::V1::CommentsController < ApplicationController
   def index
     @comments = Comment.all
 
-    render json: @comments
+    render json: @comments, each_serializer: CommentSerializer, include: ["user"]
   end
 
   # GET /comments/1
