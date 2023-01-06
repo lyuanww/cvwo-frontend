@@ -36,11 +36,11 @@ const Post: React.FC = () => {
   const resetState = () => {
     setTitle("");
     setBody("");
-    navigate("/");
+    navigate("/home");
   };
 
   const onClickCancel = () => {
-    navigate("/");
+    navigate("/home");
   };
   useEffect(() => {
     if (inputVisible) {

@@ -2,7 +2,13 @@ import React, { Dispatch, useState } from "react";
 import { Layout, Menu, Button, Input, Form } from "antd";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginSessionAsync } from "../store/session/sessionSlice";
+import {
+  loginSessionAsync,
+  selectSession,
+  selectStatus,
+  Statuses,
+} from "../store/session/sessionSlice";
+import { useAppSelector } from "../store/hooks";
 
 const { Content, Header } = Layout;
 const Login: React.FC = () => {
@@ -10,12 +16,17 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const dispatch: Dispatch<any> = useDispatch();
   const navigate = useNavigate();
+  const status = useAppSelector(selectStatus);
+  const session = useAppSelector(selectSession);
 
   const resetState = () => {
-    setUsername("");
-    setPassword("");
-
-    navigate("/");
+    if (status === Statuses.Error) {
+      alert(session.error);
+    } else if (status === Statuses.UpToDate) {
+      setUsername("");
+      setPassword("");
+      navigate("/home");
+    }
   };
 
   const onFinish = () => {
@@ -27,7 +38,6 @@ const Login: React.FC = () => {
     };
 
     dispatch(loginSessionAsync(user));
-
     resetState();
   };
 

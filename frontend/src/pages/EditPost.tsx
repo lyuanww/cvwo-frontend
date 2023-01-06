@@ -38,11 +38,11 @@ const EditPost = () => {
     };
 
     dispatch(updatePostAsync(formData));
-    navigate(`/myposts`);
+    navigate(`/home`);
   };
 
   const onClickNo = () => {
-    navigate("/myposts");
+    navigate("/home");
   };
 
   useEffect(() => {

@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { Layout, Menu, Button, Input, Form, Upload, UploadFile } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
-import { createUserAsync } from "../store/user/userSlice";
+import {
+  createUserAsync,
+  selectStatus,
+  selectUser,
+  Statuses,
+} from "../store/user/userSlice";
 
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RcFile, UploadProps } from "antd/es/upload";
 import { addProfilePicture } from "../store/user/actionsAPI";
 
@@ -20,17 +25,36 @@ const Signup: React.FC = () => {
   const [avatar, setAvatar] = useState<UploadFile<any>>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const status = useAppSelector(selectStatus);
+  const user = useAppSelector(selectUser);
 
   /* Password match system is referenced from the antd form library https://ant.design/components/form */
+  /*Upload system is referenced from the antd upload library https://ant.design/components/upload */
+  const checkFile = (file: RcFile) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      alert("You can only upload JPG/PNG file!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      alert("Image must smaller than 2MB!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
 
   const resetState = () => {
-    setUsername("");
-    setPassword("");
-    setPasswordConfirm("");
-    setLastName("");
-    setFirstName("");
-    setEmail("");
-    navigate("/login");
+    if (status === Statuses.Error) {
+      alert(user.error);
+    } else if (status === Statuses.UpToDate) {
+      setUsername("");
+      setPassword("");
+      setPasswordConfirm("");
+      setLastName("");
+      setFirstName("");
+      setEmail("");
+
+      navigate("/");
+    }
   };
   const handleChange: UploadProps["onChange"] = ({ file }) => {
     setAvatar(file);
@@ -39,13 +63,10 @@ const Signup: React.FC = () => {
   const onFinish = () => {
     const picData = new FormData();
 
-    if (!avatar) {
-      alert("Please select a file!");
-      return;
+    if (avatar && checkFile(avatar as RcFile)) {
+      picData.append("user[username]", username);
+      picData.append("user[avatar]", avatar as RcFile);
     }
-
-    picData.append("user[username]", username);
-    picData.append("user[avatar]", avatar as RcFile);
 
     const userData = {
       user: {
@@ -54,7 +75,6 @@ const Signup: React.FC = () => {
         last_name: lastName.trim(),
         email: email.trim(),
         password: password,
-        avatar: picData,
       },
     };
 

@@ -23,11 +23,10 @@ class Api::V1::UsersController < ApplicationController
         user: UserSerializer.new(user),
       }
     else
-      user.save
       render json: {
-        status: 500,
-        error: user.errors.full_messages,
-      }
+        error: "Duplicate username. Please enter another username",
+        status: 400,
+      }, status: 400
     end
   end
 

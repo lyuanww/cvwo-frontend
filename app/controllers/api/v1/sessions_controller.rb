@@ -13,9 +13,10 @@ class Api::V1::SessionsController < ApplicationController
              }
     else
       render json: {
-               status: 401,
+
                error: "Could not authenticate your account",
-             }
+               status: 400,
+             }, status: 400
     end
   end
 

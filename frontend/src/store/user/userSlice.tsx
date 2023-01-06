@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 import produce from "immer";
 import { RootState } from "../store";
 import { createUser } from "./actionsAPI";
@@ -10,19 +11,20 @@ export enum Statuses {
   Deleted = "Deleted",
   Error = "Error",
 }
-
-export interface UsersState {
-  users: UserState[];
-  status: Statuses;
+interface ValidationErrors {
+  error: string;
 }
-
 export interface UserState {
-  id: number | null;
-  username: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  image_url: string | null;
+  user: {
+    id: number | null;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    image_url: string | null;
+    error: string | null;
+  };
+  status: Statuses;
 }
 
 export interface UserFormData {
@@ -40,39 +42,59 @@ export interface UserFinalFormData {
   pic: FormData;
 }
 
-const initialState: UsersState = {
-  users: [
-    {
-      id: null,
-      username: "",
-      email: "",
-      first_name: "",
-      last_name: "",
-      image_url: null,
-    },
-  ],
+const initialState: UserState = {
+  user: {
+    id: null,
+    username: "",
+    email: "",
+    first_name: "",
+    last_name: "",
+    image_url: null,
+    error: null,
+  },
   status: Statuses.Initial,
 };
 
-export const createUserAsync = createAsyncThunk(
+export const createUserAsync = createAsyncThunk<
+  UserState,
+  UserFinalFormData,
+  { rejectValue: ValidationErrors }
+>(
   "users/createUser",
-  async (payload: UserFinalFormData) => {
-    const response = await createUser(payload.user, payload.pic);
+  async (payload: UserFinalFormData, { rejectWithValue }) => {
+    try {
+      const response = await createUser(payload.user, payload.pic);
 
-    return response;
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data);
+      }
+    }
   }
 );
-export const usersSlice = createSlice({
+export const userSlice = createSlice({
   name: "users",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(createUserAsync.rejected, (state, action) => {
+      return produce(state, (draftState) => {
+        draftState.status = Statuses.Error;
+        if (action.payload) {
+          // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, the payload will be available here.
+
+          draftState.user.error = action.payload.error;
+        }
+      });
+    });
+  },
 });
 
-export const {} = usersSlice.actions;
+export const {} = userSlice.actions;
 
-export const selectUsers = (state: RootState) => state.users.users;
+export const selectUser = (state: RootState) => state.user.user;
 
-export const selectStatus = (state: RootState) => state.users.status;
+export const selectStatus = (state: RootState) => state.user.status;
 
-export default usersSlice.reducer;
+export default userSlice.reducer;

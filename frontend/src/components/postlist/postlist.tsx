@@ -60,7 +60,7 @@ const PostList = ({ content }: Props) => {
       dispatch(fetchPostsAsync());
     }
   }, [content, dispatch, id]);
-  console.log(posts);
+
   let contents;
   const onCreate = () => {
     navigate("/createpost");

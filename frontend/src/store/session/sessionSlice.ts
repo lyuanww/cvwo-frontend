@@ -1,6 +1,13 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 import produce from "immer";
+import { Session } from "inspector";
 import { RootState } from "../store";
+import { UserState } from "../user/userSlice";
 import { fetchCurrentSession, loginSession, logoutSession } from "./actionsAPI";
 
 export enum Statuses {
@@ -11,12 +18,16 @@ export enum Statuses {
   Error = "Error",
 }
 
+interface ValidationErrors {
+  error: string;
+}
 export interface SessionState {
   session: {
     id: number | null;
     isLoggedIn: boolean;
     username: string;
     image_url: string | null;
+    error: string | null;
   };
   status: Statuses;
 }
@@ -25,12 +36,22 @@ export interface SessionLoginData {
   session: { username: string; password: string };
 }
 
-export const loginSessionAsync = createAsyncThunk(
+export const loginSessionAsync = createAsyncThunk<
+  UserState,
+  SessionLoginData,
+  { rejectValue: ValidationErrors }
+>(
   "session/loginSession",
-  async (payload: SessionLoginData) => {
-    const response = await loginSession(payload);
+  async (payload: SessionLoginData, { rejectWithValue }) => {
+    try {
+      const response = await loginSession(payload);
 
-    return response;
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data);
+      }
+    }
   }
 );
 
@@ -52,7 +73,14 @@ export const fetchCurrentSessionAsync = createAsyncThunk(
 );
 
 const initialState: SessionState = {
-  session: { id: null, isLoggedIn: false, username: "", image_url: null },
+  session: {
+    id: null,
+    isLoggedIn: false,
+    username: "",
+    image_url: null,
+    error: null,
+  },
+
   status: Statuses.Initial,
 };
 
@@ -87,9 +115,14 @@ export const sessionSlice = createSlice({
           draftState.status = Statuses.UpToDate;
         });
       })
-      .addCase(loginSessionAsync.rejected, (state) => {
+      .addCase(loginSessionAsync.rejected, (state, action) => {
         return produce(state, (draftState) => {
           draftState.status = Statuses.Error;
+          if (action.payload) {
+            // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, the payload will be available here.
+
+            draftState.session.error = action.payload.error;
+          }
         });
       })
       .addCase(fetchCurrentSessionAsync.pending, (state) => {

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { UserFormData, UsersState } from "./userSlice";
+import { UserFormData, UserState } from "./userSlice";
 
 export async function createUser(payload: UserFormData, data: FormData) {
   return axios
@@ -8,12 +8,10 @@ export async function createUser(payload: UserFormData, data: FormData) {
       headers: { "Access-Control-Allow-Credentials": true },
     })
     .then((response) => {
-      addProfilePicture(data);
+      if (data) {
+        addProfilePicture(data);
+      }
       return response.data;
-    })
-    .catch((error) => {
-      console.log("Error:" + error);
-      return {} as UsersState;
     });
 }
 
@@ -30,6 +28,6 @@ export async function addProfilePicture(data: FormData) {
     })
     .catch((error) => {
       console.log("Error:" + error);
-      return {} as UsersState;
+      return {} as UserState;
     });
 }

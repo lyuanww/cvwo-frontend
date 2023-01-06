@@ -27,8 +27,8 @@ const SideBar: React.FC = () => {
         }}
       />
       <Menu style={{ background: "rgba(5, 31, 91, 0.918)" }} mode="inline">
-        <Link to="/">
-          <Menu.Item key="/">Home</Menu.Item>
+        <Link to="/home">
+          <Menu.Item key="/home">Home</Menu.Item>
         </Link>
 
         <Link to="/myposts">

@@ -1,17 +1,6 @@
 import axios from "axios";
-import { displayPartsToString } from "typescript";
-import { useAppDispatch } from "../hooks";
-import { login, logout, SessionLoginData, SessionState } from "./sessionSlice";
 
-// export async function createComment(payload: CommentFormData) {
-//   return axios
-//     .post(API_URL, payload, { withCredentials: true })
-//     .then((response) => response.data)
-//     .catch((error) => {
-//       console.log("Error:" + error);
-//       return {} as CommentsState;
-//     });
-// }
+import { SessionLoginData, SessionState } from "./sessionSlice";
 
 export async function loginSession(payload: SessionLoginData) {
   return axios
@@ -20,10 +9,6 @@ export async function loginSession(payload: SessionLoginData) {
     })
     .then((response) => {
       return response.data;
-    })
-    .catch((error) => {
-      console.log("Error:" + error);
-      return {} as SessionState;
     });
 }
 
