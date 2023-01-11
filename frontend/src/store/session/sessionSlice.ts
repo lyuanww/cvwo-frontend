@@ -1,11 +1,6 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  isRejectedWithValue,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import produce from "immer";
-import { Session } from "inspector";
 import { RootState } from "../store";
 import { UserState } from "../user/userSlice";
 import { fetchCurrentSession, loginSession, logoutSession } from "./actionsAPI";
@@ -45,7 +40,7 @@ export const loginSessionAsync = createAsyncThunk<
   async (payload: SessionLoginData, { rejectWithValue }) => {
     try {
       const response = await loginSession(payload);
-
+      console.log(response);
       return response;
     } catch (error) {
       if (error instanceof AxiosError) {

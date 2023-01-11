@@ -6,7 +6,7 @@ import {
   CommentUpdateData,
 } from "./commentSlice";
 
-const API_URL = "http://localhost:3000/api/v1/comments";
+const API_URL = "https://post-it.herokuapp.com/api/v1/comments";
 
 export async function createComment(payload: CommentFormData) {
   return axios

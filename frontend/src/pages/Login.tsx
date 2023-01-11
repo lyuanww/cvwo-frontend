@@ -38,7 +38,9 @@ const Login: React.FC = () => {
     };
 
     dispatch(loginSessionAsync(user));
-    resetState();
+    if (status !== Statuses.Loading) {
+      resetState();
+    }
   };
 
   return (

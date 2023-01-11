@@ -1,9 +1,9 @@
-import { Layout, Menu, Avatar, Button, Divider } from "antd";
+import { Layout, Menu, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../store/hooks";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   logout,
   logoutSessionAsync,
@@ -19,11 +19,11 @@ const TopHeader: React.FC = () => {
   const checkLogin = session.isLoggedIn === false;
 
   const onClickLogin = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   const handleSuccess = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   const onClickLogout = () => {

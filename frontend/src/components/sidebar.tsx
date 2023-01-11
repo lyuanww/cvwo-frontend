@@ -1,4 +1,4 @@
-import { Divider, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 

@@ -4,7 +4,7 @@ import { SessionLoginData, SessionState } from "./sessionSlice";
 
 export async function loginSession(payload: SessionLoginData) {
   return axios
-    .post("http://localhost:3000/api/v1/login", payload, {
+    .post("https://post-it.herokuapp.com/api/v1/login", payload, {
       withCredentials: true,
     })
     .then((response) => {
@@ -14,7 +14,9 @@ export async function loginSession(payload: SessionLoginData) {
 
 export async function logoutSession() {
   return axios
-    .delete("http://localhost:3000/api/v1/logout", { withCredentials: true })
+    .delete("https://post-it.herokuapp.com/api/v1/logout", {
+      withCredentials: true,
+    })
     .then((response) => {
       return response.data;
     })
@@ -26,7 +28,9 @@ export async function logoutSession() {
 
 export async function fetchCurrentSession() {
   return axios
-    .get("http://localhost:3000/api/v1/logged_in", { withCredentials: true })
+    .get("https://post-it.herokuapp.com/api/v1/logged_in", {
+      withCredentials: true,
+    })
     .then((response) => {
       return response.data;
     })
