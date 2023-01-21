@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import { Layout, Menu, Button, Input, Form, Upload, UploadFile } from "antd";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Layout, Menu, Button, Input, Form, Upload, UploadFile } from "antd";
+import { RcFile, UploadProps } from "antd/es/upload";
 import { PlusOutlined } from "@ant-design/icons";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   createUserAsync,
   selectStatus,
   selectUser,
   Statuses,
 } from "../store/user/userSlice";
-
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { RcFile, UploadProps } from "antd/es/upload";
-import { addProfilePicture } from "../store/user/actionsAPI";
+import "../components/header.css";
 
 const { Content, Header } = Layout;
 
@@ -42,22 +41,12 @@ const Signup: React.FC = () => {
     return isJpgOrPng && isLt2M;
   };
 
-  const resetState = () => {
-    if (status === Statuses.Error) {
-      alert(user.error);
-    } else if (status === Statuses.UpToDate) {
-      setUsername("");
-      setPassword("");
-      setPasswordConfirm("");
-      setLastName("");
-      setFirstName("");
-      setEmail("");
-
-      navigate("/");
-    }
-  };
   const handleChange: UploadProps["onChange"] = ({ file }) => {
     setAvatar(file);
+  };
+
+  const backToLogin = () => {
+    navigate("/");
   };
 
   const onFinish = () => {
@@ -84,13 +73,26 @@ const Signup: React.FC = () => {
     };
 
     dispatch(createUserAsync(data));
-    resetState();
   };
+
+  useEffect(() => {
+    if (status === Statuses.Error) {
+      alert(user.error);
+    } else if (status === Statuses.UpToDate) {
+      setUsername("");
+      setPassword("");
+      setPasswordConfirm("");
+      setLastName("");
+      setFirstName("");
+      setEmail("");
+      navigate("/");
+    }
+  }, [navigate, status, user.error]);
 
   return (
     <Layout>
       <Header>
-        <Menu theme="dark" mode="horizontal">
+        <Menu className="title" theme="dark" mode="horizontal">
           Post it!
         </Menu>
       </Header>
@@ -196,6 +198,10 @@ const Signup: React.FC = () => {
 
             <Button type="primary" htmlType="submit">
               Submit
+            </Button>
+
+            <Button type="primary" onClick={backToLogin}>
+              Back to login page
             </Button>
           </Form>
         </div>

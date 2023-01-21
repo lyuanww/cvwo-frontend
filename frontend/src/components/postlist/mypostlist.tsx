@@ -1,36 +1,41 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Avatar, Button, List, Card, Divider } from "antd";
 import { UserOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import "./postlist.css";
-import { fetchMyPostsAsync, Statuses } from "../../store/post/postSlice";
-import { selectPosts, selectStatus } from "../../store/post/postSlice";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { useNavigate } from "react-router-dom";
+import {
+  selectPosts,
+  selectStatus,
+  fetchMyPostsAsync,
+  Statuses,
+} from "../../store/post/postSlice";
 import Tags from "../tags/tags";
 import CreateComment from "../comments/createcomment";
 import Comments from "../comments/comments";
-import { selectSession } from "../../store/session/sessionSlice";
 
 const { Meta } = Card;
 
 const pageSize = 5;
 
 const PostList: React.FC = () => {
+  const [current, setCurrent] = useState(1);
+  const [minIndex, setMinIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(pageSize);
   const posts = useAppSelector(selectPosts);
   const status = useAppSelector(selectStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [current, setCurrent] = useState(1);
-  const [minIndex, setMinIndex] = useState(0);
-  const [maxIndex, setMaxIndex] = useState(pageSize);
 
+  //Partition the pages using minimum index and maximum index
   const slicePosts = posts.slice(minIndex, maxIndex);
 
+  //Change the current page, min and max indexes when user changes pages
   const onChange = (page: number) => {
     setCurrent(page);
     setMinIndex(pageSize * (page - 1));
     setMaxIndex(pageSize * page);
   };
+
   useEffect(() => {
     dispatch(fetchMyPostsAsync());
   }, [dispatch]);

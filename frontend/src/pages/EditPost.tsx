@@ -1,14 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Layout, Form, Button, Tag, Input } from "antd";
-import SideBar from "../components/sidebar";
 import type { InputRef } from "antd";
-import { useNavigate } from "react-router-dom";
-import TopHeader from "../components/header";
-import { useAppDispatch } from "../store/hooks";
-import { useLocation } from "react-router-dom";
-import { updatePostAsync } from "../store/post/postSlice";
 import { PlusOutlined } from "@ant-design/icons";
+import { useAppDispatch } from "../store/hooks";
+import { updatePostAsync } from "../store/post/postSlice";
+import SideBar from "../components/sidebar";
+import TopHeader from "../components/header";
 import { TweenOneGroup } from "rc-tween-one";
+
 const { TextArea } = Input;
 const { Content } = Layout;
 interface Tagging {
@@ -45,6 +45,10 @@ const EditPost = () => {
     navigate("/home");
   };
 
+  /*
+ Tag structure is referenced from the antd tag Library https://ant.design/components/tag/
+ */
+
   useEffect(() => {
     if (inputVisible) {
       inputRef.current?.focus();
@@ -58,7 +62,6 @@ const EditPost = () => {
     const newTags = tags.filter(
       (tag: Tagging) => !checkSameTags(tag, removedTag)
     );
-    console.log(newTags);
     setTags(newTags);
   };
 
@@ -84,7 +87,6 @@ const EditPost = () => {
         closable
         onClose={(e) => {
           e.preventDefault();
-          console.log(tag);
           handleClose(tag);
         }}
       >
@@ -122,7 +124,7 @@ const EditPost = () => {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item label="TextArea">
+              <Form.Item label="Body">
                 <TextArea
                   value={body}
                   onChange={(e) => setBody(e.target.value)}

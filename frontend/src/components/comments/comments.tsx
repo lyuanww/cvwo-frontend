@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Avatar, List, Card, Button, Modal } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import { UserOutlined } from "@ant-design/icons";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   CommentState,
   destroyCommentAsync,
+  selectStatus,
   updateCommentAsync,
 } from "../../store/comment/commentSlice";
-import TextArea from "antd/es/input/TextArea";
-import { selectSession, selectStatus } from "../../store/session/sessionSlice";
+import { selectSession } from "../../store/session/sessionSlice";
 
 const { Meta } = Card;
 
+//Number of comments that is loaded when user clicks on load more button,
 const pageSize = 1;
 
 interface Props {
@@ -25,14 +27,21 @@ interface EditState {
 
 const Comments = ({ comments }: Props) => {
   const [comment, setComment] = useState("");
-  const dispatch = useAppDispatch();
-  const session = useAppSelector(selectSession);
-
   const [index, setIndex] = useState(pageSize);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const dispatch = useAppDispatch();
+  const session = useAppSelector(selectSession);
   const list = comments.slice(0, index);
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
+  const commentByCurrentUser = (user_id: number) => {
+    return session.id === user_id;
+  };
+
+  //Initialize the editing state of all comments to false
   const setInitialEditStates = (comments: CommentState[]) => {
     return comments.map((item) => {
       const comment_id: number = item.id!;
@@ -44,10 +53,12 @@ const Comments = ({ comments }: Props) => {
     setInitialEditStates(comments)
   );
 
+  //Add the pagesize to the index of the comment array to show more comments
   const onLoadMore = () => {
     setIndex(index + pageSize);
   };
 
+  //Display appropriate messages based on the state of the index
   const loadMore =
     comments.length !== index ? (
       <div className="footer">
@@ -57,18 +68,16 @@ const Comments = ({ comments }: Props) => {
       <div className="footer"> You have reached the end. </div>
     );
 
-  const commentByCurrentUser = (user_id: number) => {
-    return session.id === user_id;
-  };
-
   const noComments = comments.length === 0;
 
+  //Check whether comments is in edit state so that the appropriate content is shown
   const isEditing = (user_id: number) => {
     const check = (item: EditState) => item.id === user_id;
     const item: EditState = editing.find(check)!;
     return item.isEditing;
   };
 
+  //Set the edit state of comment
   const setCommentEditing = (id: number, isEditing: boolean) => {
     const newEditing = editing.map((item) => {
       return item.id === id ? { id: id, isEditing: isEditing } : item;
@@ -76,12 +85,20 @@ const Comments = ({ comments }: Props) => {
     setEditing(newEditing);
   };
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  const onEdit = (item: any) => {
+    const payload = {
+      comment: {
+        id: item.id,
+        body: comment,
+      },
+    };
+    dispatch(updateCommentAsync(payload));
+    refreshPage();
   };
 
-  const refreshPage = () => {
-    window.location.reload();
+  //Delete comment functionality
+  const showModal = () => {
+    setIsModalOpen(true);
   };
 
   const onDeleteCancel = () => {
@@ -96,17 +113,6 @@ const Comments = ({ comments }: Props) => {
       },
     };
     dispatch(destroyCommentAsync(payload));
-    refreshPage();
-  };
-
-  const onEdit = (item: any) => {
-    const payload = {
-      comment: {
-        id: item.id,
-        body: comment,
-      },
-    };
-    dispatch(updateCommentAsync(payload));
     refreshPage();
   };
 

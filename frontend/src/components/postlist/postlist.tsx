@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Avatar, List, Card, Button, Divider } from "antd";
 import { UserOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import "./postlist.css";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   fetchPostsAsync,
   fetchPostsByTagsAsync,
   Statuses,
 } from "../../store/post/postSlice";
 import { selectPosts, selectStatus } from "../../store/post/postSlice";
-import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { selectSession } from "../../store/session/sessionSlice";
 import Tags from "../tags/tags";
-import { useNavigate, useParams } from "react-router-dom";
 import CreateComment from "../comments/createcomment";
 import Comments from "../comments/comments";
-import { selectSession } from "../../store/session/sessionSlice";
 
 const { Meta } = Card;
 interface Props {
@@ -23,18 +22,20 @@ interface Props {
 const pageSize = 5;
 
 const PostList = ({ content }: Props) => {
+  const [current, setCurrent] = useState(1);
+  const [minIndex, setMinIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(pageSize);
   const posts = useAppSelector(selectPosts);
   const status = useAppSelector(selectStatus);
   const session = useAppSelector(selectSession);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams();
-  const [current, setCurrent] = useState(1);
-  const [minIndex, setMinIndex] = useState(0);
-  const [maxIndex, setMaxIndex] = useState(pageSize);
 
+  //Partition the pages using minimum index and maximum index
   const slicePosts = posts.slice(minIndex, maxIndex);
 
+  //Change the current page, min and max indexes when user changes pages
   const onChange = (page: number) => {
     setCurrent(page);
     setMinIndex(pageSize * (page - 1));
@@ -49,12 +50,19 @@ const PostList = ({ content }: Props) => {
   const onEdit = (item: any) => {
     navigate("/editpost", { state: { item } });
   };
+
+  const onCreate = () => {
+    navigate("/createpost");
+  };
+
   const postByCurrentUser = (user_id: number) => {
     return session.id === user_id;
   };
+
+  //Determine the action through thr content prop
   useEffect(() => {
     if (id !== undefined && content === "tags") {
-      console.log(parseInt(id, 10));
+      // id is the id of the tag which is in the url
       dispatch(fetchPostsByTagsAsync(parseInt(id, 10)));
     } else {
       dispatch(fetchPostsAsync());
@@ -62,16 +70,14 @@ const PostList = ({ content }: Props) => {
   }, [content, dispatch, id]);
 
   let contents;
-  const onCreate = () => {
-    navigate("/createpost");
-  };
 
   if (status !== Statuses.UpToDate) {
     contents = <div>{status}</div>;
   } else {
     contents = (
       <>
-        <Button onClick={onCreate}>Create Post</Button>
+        {session.id !== null && <Button onClick={onCreate}>Create Post</Button>}
+
         <List
           className="demo-loadmore-list"
           itemLayout="horizontal"
@@ -129,7 +135,10 @@ const PostList = ({ content }: Props) => {
                 description={item.body}
               />
               <Tags tags={item.tags}></Tags>
-              <CreateComment post_id={item.id!}></CreateComment>
+              {session.id !== null && (
+                <CreateComment post_id={item.id!}></CreateComment>
+              )}
+
               <h1>Comments:</h1>
               <Comments comments={item.comments} />
             </Card>

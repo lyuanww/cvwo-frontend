@@ -1,6 +1,6 @@
-import { Layout, Menu } from "antd";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Layout, Menu } from "antd";
 
 const { Sider } = Layout;
 
@@ -32,23 +32,12 @@ const SideBar: React.FC = () => {
         </Link>
 
         <Link to="/myposts">
-          <Menu.Item key="/myposts">My Post</Menu.Item>
+          <Menu.Item key="/myposts">My Posts</Menu.Item>
         </Link>
 
         <Link to="/tags">
           <Menu.Item key="/tags">Tags</Menu.Item>
         </Link>
-        {/* <Menu.SubMenu title="d" key="/dashboard">
-          <Link to="/home">
-            <Menu.Item key="/dashboard">Dashboard</Menu.Item>
-          </Link>
-        </Menu.SubMenu> */}
-
-        {/* <Link to="/add-recipe">
-               <Menu.Item key="/add-recipe">
-                 Add Recipes
-               </Menu.Item>
-             </Link> */}
       </Menu>
     </Sider>
   );

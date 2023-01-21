@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Layout, List, Card } from "antd";
-import SideBar from "../components/sidebar";
-import TopHeader from "../components/header";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchTagsAsync, selectTags, TagState } from "../store/tag/tagSlice";
-import { useNavigate } from "react-router-dom";
-const numTagsPerRow = 4;
+import SideBar from "../components/sidebar";
+import TopHeader from "../components/header";
+
 const { Content } = Layout;
+
+const numTagsPerRow = 4;
 
 const Tags: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +19,7 @@ const Tags: React.FC = () => {
     dispatch(fetchTagsAsync());
   }, [dispatch]);
 
+  //Slice the tags into rows of certain number
   const sliceIntoChunks = (tags: TagState[]) => {
     const res = [];
     for (let i = 0; i < tags.length; i += numTagsPerRow) {

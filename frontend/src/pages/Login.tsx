@@ -1,14 +1,15 @@
-import React, { Dispatch, useState } from "react";
-import { Layout, Menu, Button, Input, Form } from "antd";
-import { useDispatch } from "react-redux";
+import React, { Dispatch, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Layout, Menu, Button, Input, Form } from "antd";
+import { useAppSelector } from "../store/hooks";
 import {
   loginSessionAsync,
   selectSession,
   selectStatus,
   Statuses,
 } from "../store/session/sessionSlice";
-import { useAppSelector } from "../store/hooks";
+import "../components/header.css";
 
 const { Content, Header } = Layout;
 const Login: React.FC = () => {
@@ -19,16 +20,6 @@ const Login: React.FC = () => {
   const status = useAppSelector(selectStatus);
   const session = useAppSelector(selectSession);
 
-  const resetState = () => {
-    if (status === Statuses.Error) {
-      alert(session.error);
-    } else if (status === Statuses.UpToDate) {
-      setUsername("");
-      setPassword("");
-      navigate("/home");
-    }
-  };
-
   const onFinish = () => {
     const user = {
       session: {
@@ -36,24 +27,31 @@ const Login: React.FC = () => {
         password: password,
       },
     };
-
     dispatch(loginSessionAsync(user));
-    if (status !== Statuses.Loading) {
-      resetState();
-    }
   };
+
+  //displays error message if error and goes to the home page if login successful
+  useEffect(() => {
+    if (status === Statuses.Error) {
+      alert(session.error);
+    } else if (status === Statuses.UpToDate) {
+      setUsername("");
+      setPassword("");
+      navigate("/home");
+    }
+  }, [navigate, session.error, status]);
 
   return (
     <Layout>
       <Header>
-        <Menu theme="dark" mode="horizontal">
+        <Menu className="title" theme="dark" mode="horizontal">
           Post it!
         </Menu>
       </Header>
       <Content>
         <div
           style={{
-            padding: 100,
+            padding: 200,
             minHeight: 100,
           }}
         >

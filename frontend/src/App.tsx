@@ -1,18 +1,17 @@
 import { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useAppDispatch } from "./store/hooks";
+import { fetchCurrentSessionAsync } from "./store/session/sessionSlice";
 import SignUp from "./pages/Signup";
 import Login from "./pages/Login";
 import DeletePost from "./pages/DeletePost";
-import { fetchLoginStatus } from "./store/session/v1/actions";
 import Home from "./pages/Home";
 import MyPost from "./pages/MyPost";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import TagPost from "./pages/TagPosts";
 import Tags from "./pages/Tags";
-import { useAppDispatch } from "./store/hooks";
-import { fetchCurrentSessionAsync } from "./store/session/sessionSlice";
 
 function App() {
   const dispatch = useAppDispatch();

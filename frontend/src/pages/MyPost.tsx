@@ -3,10 +3,13 @@ import { Layout } from "antd";
 import SideBar from "../components/sidebar";
 import TopHeader from "../components/header";
 import PostList from "../components/postlist/mypostlist";
+import { useAppSelector } from "../store/hooks";
+import { selectSession } from "../store/session/sessionSlice";
 
 const { Content } = Layout;
 
 const MyPost: React.FC = () => {
+  const session = useAppSelector(selectSession);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <SideBar />
@@ -19,7 +22,7 @@ const MyPost: React.FC = () => {
               minHeight: 360,
             }}
           >
-            <PostList />
+            {session.id === null ? <div>Please login first</div> : <PostList />}
           </div>
         </Content>
       </Layout>

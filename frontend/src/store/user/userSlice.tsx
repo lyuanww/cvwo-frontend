@@ -63,8 +63,9 @@ export const createUserAsync = createAsyncThunk<
   "users/createUser",
   async (payload: UserFinalFormData, { rejectWithValue }) => {
     try {
+      //the payload has two parts: the data in json and the data in Formdata. To send both the user
+      //info and pic data to the server, two separate api requests must be made.
       const response = await createUser(payload.user, payload.pic);
-
       return response;
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -78,16 +79,32 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(createUserAsync.rejected, (state, action) => {
-      return produce(state, (draftState) => {
-        draftState.status = Statuses.Error;
-        if (action.payload) {
-          // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, the payload will be available here.
+    builder
+      .addCase(createUserAsync.pending, (state) => {
+        return produce(state, (draftState) => {
+          draftState.status = Statuses.Loading;
+        });
+      })
+      .addCase(createUserAsync.fulfilled, (state, action) => {
+        return produce(state, (draftState) => {
+          draftState.user.error = null;
 
-          draftState.user.error = action.payload.error;
-        }
+          draftState.user.id = action.payload.user.id;
+          draftState.user.username = action.payload.user.username;
+          draftState.user.image_url = action.payload.user.image_url;
+          draftState.status = Statuses.UpToDate;
+        });
+      })
+      .addCase(createUserAsync.rejected, (state, action) => {
+        return produce(state, (draftState) => {
+          draftState.status = Statuses.Error;
+          if (action.payload) {
+            // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, the payload will be available here.
+
+            draftState.user.error = action.payload.error;
+          }
+        });
       });
-    });
   },
 });
 

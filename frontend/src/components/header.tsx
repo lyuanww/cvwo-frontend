@@ -1,26 +1,22 @@
+import { Dispatch } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Layout, Menu, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../store/hooks";
-import { useDispatch } from "react-redux";
-import { Dispatch } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   logout,
   logoutSessionAsync,
   selectSession,
 } from "../store/session/sessionSlice";
+import "./header.css";
 
 const { Header } = Layout;
+
 const TopHeader: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const navigate = useNavigate();
   const session = useAppSelector(selectSession);
-
-  const checkLogin = session.isLoggedIn === false;
-
-  const onClickLogin = () => {
-    navigate("/");
-  };
 
   const handleSuccess = () => {
     navigate("/");
@@ -31,26 +27,45 @@ const TopHeader: React.FC = () => {
     dispatch(logout());
     handleSuccess();
   };
+
+  const onClickLogin = () => {
+    navigate("/");
+  };
+
   return (
     <Header className="header">
-      <div className="logo" />
       <Menu theme="dark" mode="horizontal">
-        Post it!
-        <div style={{ position: "absolute", marginLeft: 100 }}>
-          <Menu.Item key="/logout" onClick={onClickLogout}>
+        <div className="title">Post it!</div>
+        <div style={{ position: "absolute", marginLeft: 300 }}>
+          {session.id == null && (
+            <Menu.Item className="title" key="/logout" onClick={onClickLogin}>
+              Login
+            </Menu.Item>
+          )}
+          <Menu.Item className="title" key="/login" onClick={onClickLogout}>
             Log Out
           </Menu.Item>
         </div>
-        <div style={{ position: "absolute", right: 170 }}>
-          {session.image_url ? (
-            <Avatar size={40} src={session.image_url} />
-          ) : (
-            <Avatar size={40} icon={<UserOutlined />} />
-          )}
-        </div>
-        <p style={{ position: "absolute", lineHeight: 3, right: 130 }}>
+        {session.id !== null && (
+          <div style={{ position: "absolute", right: 170 }}>
+            {session.image_url ? (
+              <Avatar size={55} src={session.image_url} />
+            ) : (
+              <Avatar size={55} icon={<UserOutlined />} />
+            )}
+          </div>
+        )}
+
+        <div
+          style={{
+            position: "absolute",
+            lineHeight: 3,
+            right: 105,
+            fontSize: 20,
+          }}
+        >
           {session.username}
-        </p>
+        </div>
       </Menu>
     </Header>
   );

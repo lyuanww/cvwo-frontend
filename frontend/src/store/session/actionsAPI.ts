@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { SessionLoginData, SessionState } from "./sessionSlice";
 
 export async function loginSession(payload: SessionLoginData) {

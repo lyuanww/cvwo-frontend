@@ -1,9 +1,9 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { Layout } from "antd";
 import SideBar from "../components/sidebar";
 import TopHeader from "../components/header";
 import PostList from "../components/postlist/postlist";
-import { useLocation } from "react-router-dom";
 
 const { Content } = Layout;
 

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import produce from "immer";
-import { CommentState } from "../comment/commentSlice";
 import { RootState } from "../store";
+import { CommentState } from "../comment/commentSlice";
 import { TagState } from "../tag/tagSlice";
 import {
   fetchPosts,

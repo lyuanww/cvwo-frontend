@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
-import type { InputRef } from "antd";
-import { useAppDispatch } from "../store/hooks";
-import { Form, Input, Button, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
+import type { InputRef } from "antd";
+import { Form, Input, Button, Tag } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { useAppDispatch } from "../store/hooks";
 import { createPostAsync } from "../store/post/postSlice";
 import { TweenOneGroup } from "rc-tween-one";
+
 const { TextArea } = Input;
 interface Tagging {
   name: string;
@@ -22,17 +23,22 @@ const Post: React.FC = () => {
   const inputRef = useRef<InputRef>(null);
 
   const onFinish = () => {
-    const formData = {
-      post: {
-        title: title,
-        body: body,
-        likes: 0,
-        tags: tags,
-      },
-    };
-    dispatch(createPostAsync(formData));
-    resetState();
+    if (title.trim() === "" || body.trim() === "") {
+      alert("Title and body cannot be empty.");
+    } else {
+      const formData = {
+        post: {
+          title: title,
+          body: body,
+          likes: 0,
+          tags: tags,
+        },
+      };
+      dispatch(createPostAsync(formData));
+      resetState();
+    }
   };
+
   const resetState = () => {
     setTitle("");
     setBody("");
@@ -42,6 +48,11 @@ const Post: React.FC = () => {
   const onClickCancel = () => {
     navigate("/home");
   };
+
+  /*
+ Tag structure is referenced from the antd tag Library https://ant.design/components/tag/
+ */
+
   useEffect(() => {
     if (inputVisible) {
       inputRef.current?.focus();
@@ -54,16 +65,13 @@ const Post: React.FC = () => {
 
   const handleClose = (removedTag: Tagging) => {
     const newTags = tags.filter((tag) => !checkSameTags(tag, removedTag));
-    console.log(newTags);
     setTags(newTags);
   };
 
   const showInput = () => {
     setInputVisible(true);
   };
-  /*
- Tag structure is referenced from the antd tag Library https://ant.design/components/tag/
- */
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -108,7 +116,7 @@ const Post: React.FC = () => {
         <Form.Item label="Title">
           <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </Form.Item>
-        <Form.Item label="TextArea">
+        <Form.Item label="Body">
           <TextArea
             value={body}
             onChange={(e) => setBody(e.target.value)}

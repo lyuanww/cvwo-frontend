@@ -1,34 +1,33 @@
 import React from "react";
-import { Layout, Card, Button } from "antd";
-import SideBar from "../components/sidebar";
 import { useNavigate } from "react-router-dom";
-import TopHeader from "../components/header";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { useLocation } from "react-router-dom";
+import { Layout, Card, Button } from "antd";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {
   destroyPostAsync,
   selectStatus,
   Statuses,
 } from "../store/post/postSlice";
+import TopHeader from "../components/header";
+import SideBar from "../components/sidebar";
 
 const { Content } = Layout;
 
 const DeletePost = () => {
-  const dispatch = useAppDispatch();
   const { state } = useLocation();
   const { item } = state || {};
   const status = useAppSelector(selectStatus);
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  console.log(item);
+
   let contents;
+
   const onClickYes = () => {
     const payload = {
       post: {
         id: item.id,
       },
     };
-
     dispatch(destroyPostAsync(payload));
     navigate("/home");
   };
@@ -46,7 +45,7 @@ const DeletePost = () => {
       </div>
     </Card>
   );
-  console.log(status);
+
   if (status === Statuses.Error) {
     contents = <div>Error</div>;
   }

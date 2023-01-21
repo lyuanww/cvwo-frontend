@@ -40,7 +40,6 @@ export const loginSessionAsync = createAsyncThunk<
   async (payload: SessionLoginData, { rejectWithValue }) => {
     try {
       const response = await loginSession(payload);
-      console.log(response);
       return response;
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -92,6 +91,7 @@ export const sessionSlice = createSlice({
       state.session.isLoggedIn = false;
       state.session.id = null;
       state.session.username = "";
+      state.status = Statuses.Initial;
     },
   },
   extraReducers: (builder) => {
@@ -103,6 +103,7 @@ export const sessionSlice = createSlice({
       })
       .addCase(loginSessionAsync.fulfilled, (state, action) => {
         return produce(state, (draftState) => {
+          draftState.session.error = null;
           draftState.session.isLoggedIn = true;
           draftState.session.id = action.payload.user.id;
           draftState.session.username = action.payload.user.username;
@@ -115,7 +116,6 @@ export const sessionSlice = createSlice({
           draftState.status = Statuses.Error;
           if (action.payload) {
             // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, the payload will be available here.
-
             draftState.session.error = action.payload.error;
           }
         });

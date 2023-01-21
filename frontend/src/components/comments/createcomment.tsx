@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Button, Input } from "antd";
-
 import { useAppDispatch } from "../../store/hooks";
-
 import { createCommentAsync } from "../../store/comment/commentSlice";
 const { TextArea } = Input;
 
@@ -11,28 +9,33 @@ interface Props {
 }
 
 const CreateComment = ({ post_id }: Props) => {
+  const [comment, setComment] = useState("");
   const dispatch = useAppDispatch();
 
-  const [comment, setComment] = useState("");
-
-  const createComment = (comment: string) => {
-    const commentFormData = {
-      comment: {
-        post_id: post_id,
-        body: comment,
-      },
-    };
-    console.log(commentFormData);
-    dispatch(createCommentAsync(commentFormData));
-    resetState();
-    refreshPage();
-  };
   const refreshPage = () => {
     window.location.reload();
   };
+
   const resetState = () => {
     setComment("");
   };
+
+  const createComment = (comment: string) => {
+    if (comment.trim() === "") {
+      alert("Comment cannot be blank!");
+    } else {
+      const commentFormData = {
+        comment: {
+          post_id: post_id,
+          body: comment,
+        },
+      };
+      dispatch(createCommentAsync(commentFormData));
+      resetState();
+      refreshPage();
+    }
+  };
+
   return (
     <>
       <TextArea

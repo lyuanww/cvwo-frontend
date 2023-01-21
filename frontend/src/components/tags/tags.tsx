@@ -8,13 +8,16 @@ interface Props {
 
 const Tags = ({ tags }: Props) => {
   const navigate = useNavigate();
+
   const onClick = (tag: TagState) => {
     navigate(`/posts/tags/${tag.id}`, { state: { tag } });
   };
+
   return (
     <div style={{ margin: 20 }}>
-      <span style={{ marginRight: 8 }}>Tags:</span>
-      {tags.map((tag: any) => (
+      {tags.length > 0 && <span style={{ marginRight: 8 }}>Tags:</span>}
+
+      {tags.map((tag: TagState) => (
         <Tag onClick={() => onClick(tag)} key={tag.name}>
           {tag.name}
         </Tag>
