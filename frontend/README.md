@@ -25,5 +25,3 @@ Users can:
 - Delete comments
 - See tag related posts
 - Log out
-
-## Website
