@@ -27,5 +27,3 @@ Users can:
 - Log out
 
 ## Website
-
-Link: [https://post-it-app.herokuapp.com](https://post-it-app.herokuapp.com)
