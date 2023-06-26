@@ -34,6 +34,7 @@ const PostList = ({ content }: Props) => {
 
   //Partition the pages using minimum index and maximum index
   const slicePosts = posts.slice(minIndex, maxIndex);
+  console.log(slicePosts);
 
   //Change the current page, min and max indexes when user changes pages
   const onChange = (page: number) => {
@@ -67,7 +68,7 @@ const PostList = ({ content }: Props) => {
     } else {
       dispatch(fetchPostsAsync());
     }
-  }, [content, dispatch, id]);
+  }, [content, dispatch, id, current]);
 
   let contents;
 
