@@ -56,7 +56,6 @@ export const tagsSlice = createSlice({
   },
 });
 
-export const {} = tagsSlice.actions;
 
 export const selectTags = (state: RootState) => state.tags.tags;
 

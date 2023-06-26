@@ -225,7 +225,6 @@ export const postsSlice = createSlice({
   },
 });
 
-export const {} = postsSlice.actions;
 
 export const selectPosts = (state: RootState) => state.posts.posts;
 

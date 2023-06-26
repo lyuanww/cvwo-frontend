@@ -108,8 +108,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const {} = userSlice.actions;
-
 export const selectUser = (state: RootState) => state.user.user;
 
 export const selectStatus = (state: RootState) => state.user.status;

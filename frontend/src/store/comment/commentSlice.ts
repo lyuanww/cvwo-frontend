@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import produce from "immer";
 import { RootState } from "../store";
 import { createComment, destroyComment, updateComment } from "./actionsAPI";
 
@@ -94,8 +93,6 @@ export const commentsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {},
 });
-
-export const {} = commentsSlice.actions;
 
 export const selectComments = (state: RootState) => state.comments.comments;
 
