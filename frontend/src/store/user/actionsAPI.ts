@@ -12,7 +12,7 @@ export async function createUser(payload: UserFormData, data: FormData) {
       if (data) {
         addProfilePicture(data);
       }
-      return response. data;
+      return response.data;
     });
 }
 

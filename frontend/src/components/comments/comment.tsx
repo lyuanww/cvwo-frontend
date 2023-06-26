@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Avatar, List, Card, Button, Modal } from "antd";
+import React, {useState } from "react";
+import { Avatar, Card, Button, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { UserOutlined } from "@ant-design/icons";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   CommentState,
   destroyCommentAsync,
-  selectStatus,
   updateCommentAsync,
 } from "../../store/comment/commentSlice";
 import { selectSession } from "../../store/session/sessionSlice";
@@ -44,6 +43,7 @@ const Comment = ({ comment }: props) => {
       },
     };
     dispatch(updateCommentAsync(payload));
+    setEditingText(editingText);
     refreshPage();
   };
 
