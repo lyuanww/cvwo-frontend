@@ -4,7 +4,7 @@ import { UserFormData, UserState } from "./userSlice";
 
 export async function createUser(payload: UserFormData, data: FormData) {
   return axios
-    .post("https://post-it.herokuapp.com/api/v1/users", payload, {
+    .post("https://postit-a8rt.onrender.com/api/v1/users", payload, {
       headers: { "Access-Control-Allow-Credentials": true },
     })
     .then((response) => {
@@ -12,14 +12,14 @@ export async function createUser(payload: UserFormData, data: FormData) {
       if (data) {
         addProfilePicture(data);
       }
-      return response.data;
+      return response. data;
     });
 }
 
 // This data is in FormData as json does not deal with Blob object.
 export async function addProfilePicture(data: FormData) {
   return axios
-    .post("https://post-it.herokuapp.com/api/v1/users/add_profile_pic", data, {
+    .post("https://postit-a8rt.onrender.com/api/v1/users/add_profile_pic", data, {
       headers: {
         "Access-Control-Allow-Credentials": true,
         "content-type": "multipart/form-data",

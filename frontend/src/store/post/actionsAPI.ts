@@ -9,7 +9,7 @@ import axios from "axios";
 /*
 API requests structure (for posts) are referenced from https://www.youtube.com/watch?v=ZGnMqKg-Cq4&ab_channel=Deanin
 */
-const API_URL = "https://post-it.herokuapp.com/api/v1/posts";
+const API_URL = "https://postit-a8rt.onrender.com/api/v1/posts";
 
 export async function fetchPosts() {
   return axios
